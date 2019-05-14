@@ -3081,6 +3081,13 @@ public:
    * \return Value of the adjoint velocity vector at the infinity.
    */
   virtual su2double GetPhi_Inf(unsigned short val_dim);
+
+  /********************************************************************************/
+  /* AKB: Add virtual functions to get sensitivity values. */
+  // only done cb1 for now
+  virtual su2double GetTotal_Sens_cb1(void);
+
+  /********************************************************************************/  
   
   /*!
    * \brief A virtual member.
@@ -12668,7 +12675,14 @@ private:
   unsigned long nMarker;        /*!< \brief Total number of markers using the grid information. */
   
   su2double *Solution_Geometry; /*!< \brief Auxiliary vector for the geometry solution (dimension nDim instead of nVar). */
-  
+
+  /****************************************************************/
+  /*AKB: New variables for sensitivities of closure coefficients */
+  /* Only done cb1 for now */
+  su2double Total_Sens_cb1;
+  su2double cb1_adj;
+  /****************************************************************/  
+
 public:
   
   /*!
@@ -12797,6 +12811,12 @@ public:
    * \param[in] config - Definition of the particular problem.
    */
   void SetAdj_ObjFunc(CGeometry *geometry, CConfig* config);
+
+  /************************************************************/
+  /* AKB: Declare functions for getting the sensitiviy values */
+  // only done cb1
+  su2double GetTotal_Sens_cb1(void);
+  /************************************************************/  
   
   /*!
    * \brief Provide the total shape sensitivity coefficient.

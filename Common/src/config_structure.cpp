@@ -914,6 +914,22 @@ void CConfig::SetConfig_Options(unsigned short val_iZone, unsigned short val_nZo
   addDoubleOption("INITIAL_BCTHRUST", Initial_BCThrust, 4000.0);
   /* DESCRIPTION:  */
   addDoubleOption("FREESTREAM_TURB2LAMVISCRATIO", Turb2LamViscRatio_FreeStream, 10.0);
+
+  /*------------------------------------------------------------------------------------*/
+  /* AKB: Add Config file entries for the SA coefficients.
+          Adds options with default values.
+          Note name of variables which should be used in config file. */
+  addDoubleOption("SA_CB1", cb1_usrdef, 0.1355);
+  addDoubleOption("SA_SIG", sig_usrdef, 2.0/3.0);
+  addDoubleOption("SA_CB2", cb2_usrdef, 0.622);
+  addDoubleOption("SA_KAR", kar_usrdef, 0.41);
+  addDoubleOption("SA_CW2", cw2_usrdef, 0.3);
+  addDoubleOption("SA_CW3", cw3_usrdef, 2.0);
+  addDoubleOption("SA_CV1", cv1_usrdef, 7.1);
+  addDoubleOption("SA_CT3", ct3_usrdef, 1.2);
+  addDoubleOption("SA_CT4", ct4_usrdef, 0.5);
+  /*------------------------------------------------------------------------------------*/
+
   /* DESCRIPTION: Side-slip angle (degrees, only for compressible flows) */
   addDoubleOption("SIDESLIP_ANGLE", AoS, 0.0);
   /*!\brief AOA  \n DESCRIPTION: Angle of attack (degrees, only for compressible flows) \ingroup Config*/
@@ -5067,6 +5083,24 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
         break;
 
     }
+
+    /*************************************************************************************************/
+    /*AKB: Add SA coefficients to output*/
+    if (Kind_Solver == RANS || Kind_Solver == DISC_ADJ_RANS) {
+        cout << "*************************************************************************" << endl;
+        cout << "Spalart Allmaras Closure Coefficients" << endl;
+        cout << "cb1 = " << '\t' << cb1_usrdef << endl;
+        cout << "sig = " << '\t' << sig_usrdef << endl;
+        cout << "cb2 = " << '\t' << cb2_usrdef << endl;
+        cout << "kar = " << '\t' << kar_usrdef << endl;
+        cout << "cw2 = " << '\t' << cw2_usrdef << endl;
+        cout << "cw3 = " << '\t' << cw3_usrdef << endl;
+        cout << "cv1 = " << '\t' << cv1_usrdef << endl;
+        cout << "ct3 = " << '\t' << ct3_usrdef << endl;
+        cout << "ct4 = " << '\t' << ct4_usrdef << endl;
+        cout << "*************************************************************************" << endl;
+    }
+    /*************************************************************************************************/
 
     if ((Kind_Regime == COMPRESSIBLE) && (Kind_Solver != FEM_ELASTICITY)) {
       cout << "Mach number: " << Mach <<"."<< endl;

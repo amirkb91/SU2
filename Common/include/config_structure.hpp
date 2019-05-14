@@ -70,6 +70,19 @@ using namespace std;
 
 class CConfig {
 private:
+  /*----------------------------------------------------*/
+  /* AKB: Declare user defined SA Coefficients */
+  su2double cb1_usrdef;
+  su2double sig_usrdef;
+  su2double cb2_usrdef;
+  su2double kar_usrdef;
+  su2double cw2_usrdef;
+  su2double cw3_usrdef;
+  su2double cv1_usrdef;
+  su2double ct3_usrdef;
+  su2double ct4_usrdef;
+  /*----------------------------------------------------*/
+
   SU2_MPI::Comm SU2_Communicator; /*!< \brief MPI communicator of SU2.*/
   int rank, size;
   unsigned short Kind_SU2; /*!< \brief Kind of SU2 software component.*/
@@ -2643,6 +2656,23 @@ public:
    */
   void SetTotal_UnstTimeND(su2double val_total_unsttimend);
   
+  /*-----------------------------------------------------------------*/
+  /* AKB: Declare the functions for returning and setting the SA coefficients.
+          Functions are defined in config_structure.inl */
+  su2double GetSA_cb1(void);
+  su2double GetSA_sig(void);
+  su2double GetSA_cb2(void);
+  su2double GetSA_kar(void);
+  su2double GetSA_cw2(void);
+  su2double GetSA_cw3(void);
+  su2double GetSA_cv1(void);
+  su2double GetSA_ct3(void);
+  su2double GetSA_ct4(void);
+
+  // Only done cb1 for now, do rest later
+  void SetSA_cb1(su2double cb1_val_in);
+  /*-----------------------------------------------------------------*/
+
   /*!
    * \brief Get the angle of attack of the body. This is the angle between a reference line on a lifting body
    *        (often the chord line of an airfoil) and the vector representing the relative motion between the
