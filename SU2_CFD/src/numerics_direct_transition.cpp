@@ -336,7 +336,11 @@ CSourcePieceWise_TransLM::CSourcePieceWise_TransLM(unsigned short val_nDim, unsi
   /* AKB: modify closure coefficients */
   CSolver solverobject;
   cb1   = solverobject.Get_cb1_sol();
+
   std::cout << "cb1 is DD: " << cb1 << '\n';
+
+
+
   //cb1   = config->GetSA_cb1();
   sigma = config->GetSA_sig();
   cb2   = config->GetSA_cb2();
