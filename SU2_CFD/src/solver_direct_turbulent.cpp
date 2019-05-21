@@ -3316,7 +3316,9 @@ void CTurbSASolver::SetDES_LengthScale(CSolver **solver, CGeometry *geometry, CC
       aux_ln = 0.0, f_kh = 0.0;
 
   /* AKB: modify clousre coefficients */
-  su2double cb1   = config->GetSA_cb1();
+  su2double cb1   = Get_cb1_sol();
+  std::cout << "cb1 is E: " << cb1 << '\n';
+  //su2double cb1   = config->GetSA_cb1();
   su2double sigma = config->GetSA_sig();
   su2double cb2   = config->GetSA_cb2();
             k2    = pow(config->GetSA_kar(), 2.0); //k2 already declared and initialized above so only assign

@@ -596,6 +596,8 @@ inline void CSolver::Source_Template(CGeometry *geometry, CSolver **solver_conta
 /* AKB: Inline fucntions for the CSolver class (defined there as virtual) */
 // only done cb1
 inline su2double CSolver::GetTotal_Sens_cb1() { return 0; }
+
+inline su2double CSolver::Get_cb1_sol() { return 0; }
 /******************************************************************************/
 
 inline su2double CSolver::GetTotal_Sens_Geo() { return 0; }
@@ -2365,6 +2367,8 @@ inline void CSolver::SetMesh_Recording(CGeometry **geometry, CVolumetricMovement
 /******************************************************************************/
 /* AKB: Inline fucntions for getting the sensitiviy values */
 inline su2double CDiscAdjSolver::GetTotal_Sens_cb1() { return Total_Sens_cb1; }
+
+inline su2double CDiscAdjSolver::Get_cb1_sol() { return cb1_sol; }
 /******************************************************************************/
 
 inline su2double CDiscAdjSolver::GetTotal_Sens_Geo() { return Total_Sens_Geo; }

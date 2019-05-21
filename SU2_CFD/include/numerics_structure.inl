@@ -591,3 +591,10 @@ inline su2double CAvgGrad_Base::GetHeatFluxVector(unsigned short iDim) const {
 }
 
 inline void CNumerics::SetUsing_UQ(bool val_using_uq) { using_uq = val_using_uq; }
+
+/* AKB: Function for getting closure coefficient values from CSolver */
+//inline su2double CNumerics::Set_cb1_num() {
+//    CSolver solverobject;
+//    cb1_num = solverobject.Get_cb1_sol();
+//    return cb1_num;    
+//}

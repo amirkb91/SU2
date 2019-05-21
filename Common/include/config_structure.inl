@@ -722,9 +722,6 @@ inline su2double CConfig::GetSA_cw3(void) { return cw3_usrdef; }
 inline su2double CConfig::GetSA_cv1(void) { return cv1_usrdef; }
 inline su2double CConfig::GetSA_ct3(void) { return ct3_usrdef; }
 inline su2double CConfig::GetSA_ct4(void) { return ct4_usrdef; }
-
-// Only done cb1 for now.
-inline void CConfig::SetSA_cb1(su2double cb1_val_in) { cb1_usrdef = cb1_val_in; }
 /*---------------------------------------------------------------------------*/
 
 inline su2double CConfig::GetAoA(void) { return AoA; }

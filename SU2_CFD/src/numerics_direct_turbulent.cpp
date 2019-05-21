@@ -36,6 +36,7 @@
  */
 
 #include "../include/numerics_structure.hpp"
+#include "../include/solver_structure.hpp"
 #include <limits>
 
 CUpwScalar::CUpwScalar(unsigned short val_nDim,
@@ -316,7 +317,10 @@ CSourcePieceWise_TurbSA::CSourcePieceWise_TurbSA(unsigned short val_nDim, unsign
   
   /*--- Spalart-Allmaras closure constants ---*/
   /* AKB: modify closure constants */
-  cb1   = config->GetSA_cb1();
+  CSolver solverobject;
+  cb1   = solverobject.Get_cb1_sol();
+  std::cout << "cb1 is B: " << cb1 << '\n';
+  //cb1   = config->GetSA_cb1();
   sigma = config->GetSA_sig();
   cb2   = config->GetSA_cb2();
   k2    = pow(config->GetSA_kar(), 2.0);
@@ -499,7 +503,9 @@ CSourcePieceWise_TurbSA_E::CSourcePieceWise_TurbSA_E(unsigned short val_nDim, un
     
     /*--- Spalart-Allmaras closure constants ---*/
     /* AKB: modify closure constants */
-    cb1   = config->GetSA_cb1();
+    CSolver solverobject;
+    cb1   = solverobject.Get_cb1_sol();
+    //cb1   = config->GetSA_cb1();
     sigma = config->GetSA_sig();
     cb2   = config->GetSA_cb2();
     k2    = pow(config->GetSA_kar(), 2.0);
@@ -652,7 +658,9 @@ CSourcePieceWise_TurbSA_COMP::CSourcePieceWise_TurbSA_COMP(unsigned short val_nD
     
     /*--- Spalart-Allmaras closure constants ---*/
     /* AKB: modify closure constants */
-    cb1   = config->GetSA_cb1();
+    CSolver solverobject;
+    cb1   = solverobject.Get_cb1_sol();
+    //cb1   = config->GetSA_cb1();
     sigma = config->GetSA_sig();
     cb2   = config->GetSA_cb2();
     k2    = pow(config->GetSA_kar(), 2.0);
@@ -800,7 +808,9 @@ CSourcePieceWise_TurbSA_E_COMP::CSourcePieceWise_TurbSA_E_COMP(unsigned short va
     
     /*--- Spalart-Allmaras closure constants ---*/
     /* AKB: modify closure constants */
-    cb1   = config->GetSA_cb1();
+    CSolver solverobject;
+    cb1   = solverobject.Get_cb1_sol();
+    //cb1   = config->GetSA_cb1();
     sigma = config->GetSA_sig();
     cb2   = config->GetSA_cb2();
     k2    = pow(config->GetSA_kar(), 2.0);
@@ -965,8 +975,10 @@ CSourcePieceWise_TurbSA_Neg::CSourcePieceWise_TurbSA_Neg(unsigned short val_nDim
   
   /*--- Negative Spalart-Allmaras closure constants ---*/
   
-  /*AKB: Modify closure constants */  
-  cb1   = config->GetSA_cb1();
+  /*AKB: Modify closure constants */
+  CSolver solverobject;
+  cb1   = solverobject.Get_cb1_sol(); 
+  //cb1   = config->GetSA_cb1();
   sigma = config->GetSA_sig();
   cb2   = config->GetSA_cb2();
   k2    = pow(config->GetSA_kar(), 2.0);

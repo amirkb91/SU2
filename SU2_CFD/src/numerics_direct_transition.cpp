@@ -36,6 +36,7 @@
  */
 
 #include "../include/numerics_structure.hpp"
+#include "../include/solver_structure.hpp"
 #include <limits>
 
 CUpwLin_TransLM::CUpwLin_TransLM(unsigned short val_nDim, unsigned short val_nVar, CConfig *config) : CNumerics(val_nDim, val_nVar, config) {
@@ -333,7 +334,10 @@ CSourcePieceWise_TransLM::CSourcePieceWise_TransLM(unsigned short val_nDim, unsi
   
   /*--- Spalart-Allmaras closure constants ---*/
   /* AKB: modify closure coefficients */
-  cb1   = config->GetSA_cb1();
+  CSolver solverobject;
+  cb1   = solverobject.Get_cb1_sol();
+  std::cout << "cb1 is DD: " << cb1 << '\n';
+  //cb1   = config->GetSA_cb1();
   sigma = config->GetSA_sig();
   cb2   = config->GetSA_cb2();
   k2    = pow(config->GetSA_kar(), 2.0);

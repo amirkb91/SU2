@@ -1494,6 +1494,12 @@ public:
    */
   static void tql2(su2double **V, su2double *d, su2double *e, unsigned short n);
   
+  /*********************************************************************/
+  /* AKB: Declare closure coefficients for numerics classes */
+  su2double cb1_num;
+  /* AKB: Function for getting closure coefficient values from CSolver */  
+  su2double Set_cb1_num();
+  /*********************************************************************/
 };
 
 /*!
