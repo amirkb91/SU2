@@ -3085,7 +3085,9 @@ public:
   /********************************************************************************/
   /* AKB: Add virtual functions to get sensitivity values. */
   // only done cb1 for now
-  virtual su2double GetTotal_Sens_cb1(void);
+  virtual su2double GetTotal_Sens_cb1();
+  
+  virtual su2double Get_cb1_sol();
 
   /********************************************************************************/  
   
@@ -12680,7 +12682,7 @@ private:
   /*AKB: New variables for sensitivities of closure coefficients */
   /* Only done cb1 for now */
   su2double Total_Sens_cb1;
-  su2double cb1_adj;
+  su2double cb1_sol;
   /****************************************************************/  
 
 public:
@@ -12815,7 +12817,9 @@ public:
   /************************************************************/
   /* AKB: Declare functions for getting the sensitiviy values */
   // only done cb1
-  su2double GetTotal_Sens_cb1(void);
+  su2double GetTotal_Sens_cb1();
+  
+  su2double Get_cb1_sol();
   /************************************************************/  
   
   /*!

@@ -2668,9 +2668,6 @@ public:
   su2double GetSA_cv1(void);
   su2double GetSA_ct3(void);
   su2double GetSA_ct4(void);
-
-  // Only done cb1 for now, do rest later
-  void SetSA_cb1(su2double cb1_val_in);
   /*-----------------------------------------------------------------*/
 
   /*!

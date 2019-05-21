@@ -36,6 +36,8 @@
  */
 
 #include "../include/numerics_structure.hpp"
+//AKB 
+#include "../include/solver_structure.hpp"
 #include <limits>
 
 CUpwLin_AdjTurb::CUpwLin_AdjTurb(unsigned short val_nDim, unsigned short val_nVar, CConfig *config) : CNumerics(val_nDim, val_nVar, config) {
@@ -436,7 +438,10 @@ void CSourcePieceWise_AdjTurb::ComputeResidual(su2double *val_residual, su2doubl
     /*--- FIRST PART: -Bs*TurbPsi_i ---*/
     /*--- CLOUSURE CONSTANTS ---*/
     /* AKB: modify closure coefficients */
-    su2double cb1   = config->GetSA_cb1();
+    CSolver solverobject;
+    su2double cb1   = solverobject.Get_cb1_sol();
+    std::cout << "cb1 is A: " << cb1 << '\n';
+    //su2double cb1   = config->GetSA_cb1();
     su2double sigma = config->GetSA_sig();
     su2double cb2   = config->GetSA_cb2();
     su2double k     = config->GetSA_kar();
