@@ -1494,6 +1494,8 @@ public:
    */
   static void tql2(su2double **V, su2double *d, su2double *e, unsigned short n);
   
+  /* AKB: virtual function for setting the SA coeffs inside numerics*/
+  virtual void SetSA_num_cb1(su2double val_cb1);
 };
 
 /*!
@@ -4587,6 +4589,9 @@ public:
    * \brief  ______________.
    */
   su2double GetCrossProduction(void);
+  
+ /*AKB: Function for setting the SA coeffs inside numerics*/
+ void SetSA_num_cb1(su2double val_cb1); 
 };
 
 /*!

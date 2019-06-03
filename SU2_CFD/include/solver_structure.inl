@@ -592,6 +592,12 @@ inline void CSolver::Source_Residual(CGeometry *geometry, CSolver **solver_conta
 inline void CSolver::Source_Template(CGeometry *geometry, CSolver **solver_container, 
                           CNumerics *numerics, CConfig *config, unsigned short iMesh) { }
 
+/******************************************************************************/
+/* AKB: Inline fucntions for the CSolver class (defined there as virtual) */
+inline su2double CSolver::GetTotal_Sens_cb1(void) { return 0; }
+inline su2double CSolver::GetSA_cb1_solver(void) {return 0; }
+/******************************************************************************/
+
 inline su2double CSolver::GetTotal_Sens_Geo() { return 0; }
 
 inline su2double CSolver::GetTotal_Sens_Mach() { return 0; }
@@ -2355,6 +2361,14 @@ inline void CSolver::ExtractAdjoint_CrossTerm_Geometry(CGeometry *geometry, CCon
 inline void CSolver::ExtractAdjoint_CrossTerm_Geometry_Flow(CGeometry *geometry, CConfig *config) {}
 
 inline void CSolver::SetMesh_Recording(CGeometry **geometry, CVolumetricMovement *grid_movement, CConfig *config) {}
+
+/******************************************************************************/
+/* AKB: Inline fucntions for getting the sensitiviy values */
+inline su2double CDiscAdjSolver::GetTotal_Sens_cb1(void) { return Total_Sens_cb1; }
+inline su2double CDiscAdjSolver::GetSA_cb1_solver(void) {
+    std::cout << "AKB: inside GetSA_cb1_solver returning cb1_adj as: "<< cb1_adj << '\n';
+    return cb1_adj; }
+/******************************************************************************/
 
 inline su2double CDiscAdjSolver::GetTotal_Sens_Geo() { return Total_Sens_Geo; }
 

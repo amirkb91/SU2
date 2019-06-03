@@ -3081,7 +3081,7 @@ public:
    * \return Value of the adjoint velocity vector at the infinity.
    */
   virtual su2double GetPhi_Inf(unsigned short val_dim);
-  
+
   /*!
    * \brief A virtual member.
    * \return Value of the geometrical sensitivity coefficient
@@ -4367,6 +4367,12 @@ public:
    */
   virtual void SetDES_LengthScale(CSolver** solver, CGeometry *geometry, CConfig *config);
 
+  /********************************************************************************/
+  /* AKB: Virtual functions to get sensitivity values. */
+  virtual su2double GetTotal_Sens_cb1(void);
+  /* Virtual functions to get SA coeff values from solver. */
+  virtual su2double GetSA_cb1_solver(void);
+  /********************************************************************************/
 };
 
 /*!
@@ -12668,7 +12674,14 @@ private:
   unsigned long nMarker;        /*!< \brief Total number of markers using the grid information. */
   
   su2double *Solution_Geometry; /*!< \brief Auxiliary vector for the geometry solution (dimension nDim instead of nVar). */
-  
+
+  /****************************************************************/
+  /*AKB: Sensitivities of closure coefficients */
+  su2double Total_Sens_cb1;
+  /* Closure coefficients for AD register  */
+  su2double cb1_adj;
+  /****************************************************************/  
+
 public:
   
   /*!
@@ -12797,7 +12810,7 @@ public:
    * \param[in] config - Definition of the particular problem.
    */
   void SetAdj_ObjFunc(CGeometry *geometry, CConfig* config);
-  
+
   /*!
    * \brief Provide the total shape sensitivity coefficient.
    * \return Value of the geometrical sensitivity coefficient
@@ -12921,6 +12934,13 @@ public:
    * \param[in] val_iterlinsolver - Number of linear iterations.
    */
   void UpdateSolution_BGS(CGeometry *geometry, CConfig *config);
+  
+  /************************************************************/
+  /* AKB: Functions for returning the sensitiviy values */
+  su2double GetTotal_Sens_cb1(void);
+  /* Functions for returning the coefficient values from solver */
+  su2double GetSA_cb1_solver(void);
+  /************************************************************/   
 };
 
 /*!

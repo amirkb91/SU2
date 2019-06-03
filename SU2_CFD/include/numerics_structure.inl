@@ -591,3 +591,8 @@ inline su2double CAvgGrad_Base::GetHeatFluxVector(unsigned short iDim) const {
 }
 
 inline void CNumerics::SetUsing_UQ(bool val_using_uq) { using_uq = val_using_uq; }
+
+/* AKB: inline function for setting the value of the SA coefficients inside the numerics classes */
+inline void CNumerics::SetSA_num_cb1(su2double val_cb1) { }
+inline void CSourcePieceWise_TurbSA::SetSA_num_cb1(su2double val_cb1) { cb1 = val_cb1; 
+std::cout << "AKB: Inside SetSA_num_cb1 and val_cb1 is:   " << val_cb1 << '\n';}

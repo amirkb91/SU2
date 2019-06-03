@@ -2457,7 +2457,9 @@ void CDiscAdjFluidIteration::RegisterInput(CSolver *****solver_container, CGeome
 
 }
 
-void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeometry ****geometry_container, CConfig **config_container, unsigned short iZone, unsigned short iInst, unsigned short kind_recording){
+/* AKB: Add numerics_container input, comment out original code */
+//void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeometry ****geometry_container, CConfig **config_container, unsigned short iZone, unsigned short iInst, unsigned short kind_recording){
+void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeometry ****geometry_container, CNumerics ******numerics_container, CConfig **config_container, unsigned short iZone, unsigned short iInst, unsigned short kind_recording){
 
   bool frozen_visc = config_container[iZone]->GetFrozen_Visc_Disc();
   bool heat = config_container[iZone]->GetWeakly_Coupled_Heat();
@@ -2486,6 +2488,16 @@ void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeo
     solver_container[iZone][iInst][MESH_0][HEAT_SOL]->Postprocessing(geometry_container[iZone][iInst][MESH_0],solver_container[iZone][iInst][MESH_0], config_container[iZone], MESH_0);
     solver_container[iZone][iInst][MESH_0][HEAT_SOL]->Set_MPI_Solution(geometry_container[iZone][iInst][MESH_0], config_container[iZone]);
   }
+  
+  /* AKB: Update numerics container with SA coefficients from solver (where AD is registered) */
+  // from driver_structure.cpp::
+  // solver_container[val_iInst][iMGlevel][ADJTURB_SOL] = new CDiscAdjSolver() {if frozen_visc is false}
+  // numerics_container[val_iInst][iMGlevel][TURB_SOL][VISC_TERM] = new CAvgGrad_TurbSA()
+  // numerics_container[val_iInst][iMGlevel][TURB_SOL][SOURCE_FIRST_TERM] = new CSourcePieceWise_TurbSA() 
+  
+  //numerics_container[iZone][iInst][MESH_0][TURB_SOL][VISC_TERM]->SetSA_num_cb1(solver_container[iZone][iInst][MESH_0][ADJTURB_SOL]->GetSA_cb1_solver());
+  numerics_container[iZone][iInst][MESH_0][TURB_SOL][SOURCE_FIRST_TERM]->SetSA_num_cb1(solver_container[iZone][iInst][MESH_0][ADJTURB_SOL]->GetSA_cb1_solver());
+  std::cout << "AKB: numerics_container has Set cb1 inside iteration_structure\n";
 }
 
 void CDiscAdjFluidIteration::RegisterOutput(CSolver *****solver_container, CGeometry ****geometry_container, CConfig **config_container, COutput* output, unsigned short iZone, unsigned short iInst){
