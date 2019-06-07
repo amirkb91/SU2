@@ -140,8 +140,8 @@ CAvgGrad_TransLM::CAvgGrad_TransLM(unsigned short val_nDim, unsigned short val_n
   Gamma_Minus_One = Gamma - 1.0;
   
   /* AKB: Modify sigma */
-  sigma = config->GetSA_sig();
-  //sigma = 2./3.;
+  // sigma = config->GetSA_sig();
+  sigma = 2./3.;
   
   Edge_Vector = new su2double [nDim];
   Proj_Mean_GradTransVar_Kappa = new su2double [nVar];
@@ -255,8 +255,8 @@ CAvgGradCorrected_TransLM::CAvgGradCorrected_TransLM(unsigned short val_nDim, un
   Gamma_Minus_One = Gamma - 1.0;
   
   /* AKB: Modify sigma */
-  sigma = config->GetSA_sig();
-  //sigma = 2./3.;
+  // sigma = config->GetSA_sig();
+  sigma = 2./3.;
   
   Edge_Vector = new su2double [nDim];
   Proj_Mean_GradTurbVar_Kappa = new su2double [nVar];
@@ -332,22 +332,22 @@ CSourcePieceWise_TransLM::CSourcePieceWise_TransLM(unsigned short val_nDim, unsi
   Gamma_Minus_One = Gamma - 1.0;
   
   /*--- Spalart-Allmaras closure constants ---*/
-  /* AKB: modify closure coefficients */
-  cb1   = config->GetSA_cb1();
-  sigma = config->GetSA_sig();
-  cb2   = config->GetSA_cb2();
-  k2    = pow(config->GetSA_kar(), 2.0);
-  cw2   = config->GetSA_cw2();
-  cw3_6 = pow(config->GetSA_cw3(), 6.0);
-  cv1_3 = pow(config->GetSA_cv1(), 3.0);
+  /* AKB: Modify closure coefficients */
+  // cb1   = config->GetSA_cb1();
+  // sigma = config->GetSA_sig();
+  // cb2   = config->GetSA_cb2();
+  // k2    = pow(config->GetSA_kar(), 2.0);
+  // cw2   = config->GetSA_cw2();
+  // cw3_6 = pow(config->GetSA_cw3(), 6.0);
+  // cv1_3 = pow(config->GetSA_cv1(), 3.0);
 
-  //cv1_3 = pow(7.1,3.0);
-  //k2 = pow(0.41,2.0);
-  //cb1 = 0.1355;
-  //cw2 = 0.3;
-  //cw3_6 = pow(2.0,6.0);
-  //sigma = 2./3.;
-  //cb2 = 0.622;
+  cv1_3 = pow(7.1,3.0);
+  k2 = pow(0.41,2.0);
+  cb1 = 0.1355;
+  cw2 = 0.3;
+  cw3_6 = pow(2.0,6.0);
+  sigma = 2./3.;
+  cb2 = 0.622;
   cw1 = cb1/k2+(1+cb2)/sigma;
   
   /*-- Gamma-theta closure constants --*/

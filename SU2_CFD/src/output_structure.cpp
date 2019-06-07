@@ -4394,8 +4394,10 @@ void COutput::SetConvHistory_Header(ofstream *ConvHist_file, CConfig *config, un
   char fem_coeff[]= ",\"VM_Stress\",\"Force_Coeff\"";
   char fem_incload[]= ",\"IncLoad\"";
   char adj_coeff[]= ",\"Sens_Geo\",\"Sens_Mach\",\"Sens_AoA\",\"Sens_Press\",\"Sens_Temp\",\"Sens_AoS\"";
-  /*AKB: Header for the SA sensitivities*/
-  char adj_coeff_SA[]=",\"Sens_cb1\"";  
+  /***************************************************************************/
+  // AKB: Add SA sensitivities to header of output file
+  char adj_coeff_SA[]=",\"Sens_cb1\",\"Sens_sig\"";
+  /***************************************************************************/  
   char adj_inc_coeff[]=",\"Sens_Geo\",\"Sens_Vin\",\"Sens_Pout\",\"Sens_Temp\"";
   char adj_turbo_coeff[]=",\"Sens_Geo\",\"Sens_PressOut\",\"Sens_TotTempIn\"";
   char surface_outputs[]= ",\"Avg_MassFlow\",\"Avg_Mach\",\"Avg_Temp\",\"Avg_Press\",\"Avg_Density\",\"Avg_Enthalpy\",\"Avg_NormalVel\",\"Uniformity\",\"Secondary_Strength\",\"Momentum_Distortion\",\"Secondary_Over_Uniformity\",\"Avg_TotalTemp\",\"Avg_TotalPress\",\"Pressure_Drop\"";
@@ -4527,8 +4529,7 @@ void COutput::SetConvHistory_Header(ofstream *ConvHist_file, CConfig *config, un
     case DISC_ADJ_EULER: case DISC_ADJ_NAVIER_STOKES: case DISC_ADJ_RANS:
       if (!turbo) {
         if (compressible) {
-          /* AKB: Write the header with the SA sensitivities included.
-             Commented out the original code */
+          // AKB: Write the header with the SA sensitivities included.
           //ConvHist_file[0] << begin << adj_coeff << adj_flow_resid;
           ConvHist_file[0] << begin << adj_coeff << adj_coeff_SA << adj_flow_resid;
         }
@@ -4704,7 +4705,7 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
     begin_fem[1000], fem_coeff[1000], heat_resid[1000], combo_obj[1000],
     fem_resid[1000], end[1000], end_fem[1000], surface_outputs[1000], d_surface_outputs[1000], d_direct_coeff[1000], turbo_coeff[10000];
 
-    /*AKB: Add buffers for the SA sensitivites to be written*/
+    // AKB: Add buffers for the SA sensitivites
     char adjoint_coeff_SA[1000];
 
     su2double dummy = 0.0, *Coord;
@@ -4786,8 +4787,11 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
     /*--- Initialize variables to store information from all domains (adjoint solution) ---*/
     su2double Total_Sens_Geo = 0.0, Total_Sens_Mach = 0.0, Total_Sens_AoA = 0.0;
     su2double Total_Sens_Press = 0.0, Total_Sens_Temp = 0.0;
-    /* AKB: Initialize variables for SA sensitivities */
+    /***************************************************************************/
+    // AKB: Initialize variables for SA sensitivities
     su2double Total_Sens_cb1 = 0.0;
+    su2double Total_Sens_sig = 0.0;
+    /***************************************************************************/
 
     su2double Total_Sens_BPressure = 0.0;
     su2double Total_Sens_ModVel = 0.0;
@@ -5102,9 +5106,12 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
           Total_Sens_Temp      = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_Temp();
           Total_Sens_BPressure = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_BPress();
           Total_Sens_ModVel    = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_ModVel();
-
-          /* AKB: Assign SA sensitivities */
+          
+          /***************************************************************************/
+          // AKB: Get SA sensitivies from solver
           Total_Sens_cb1       = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_cb1();          
+          Total_Sens_sig       = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_sig();
+          /***************************************************************************/          
 
           /*--- Adjoint flow residuals ---*/
           
@@ -5433,8 +5440,8 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
               if (!turbo) {
                 if (compressible) {
                   SPRINTF (adjoint_coeff, ", %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, 0.0", Total_Sens_Geo, Total_Sens_Mach, Total_Sens_AoA, Total_Sens_Press, Total_Sens_Temp);
-                  /*AKB: Write the SA sensitivites*/
-                  SPRINTF (adjoint_coeff_SA, ", %14.8e", Total_Sens_cb1);                
+                  // AKB: Write the SA sensitivites to file
+                  SPRINTF (adjoint_coeff_SA, ", %14.8e, %14.8e", Total_Sens_cb1, Total_Sens_sig);                
                 }
                 if (incompressible) {
                   SPRINTF (adjoint_coeff, ", %14.8e, %14.8e, %14.8e, %14.8e", Total_Sens_Geo, Total_Sens_ModVel, Total_Sens_BPressure, Total_Sens_Temp);
@@ -5878,9 +5885,9 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
               if (disc_adj) {
                 if (!turbo){
                   if (compressible) {
-                  //cout << "    Sens_Press" << "      Sens_AoA" << endl;
-                  /*AKB: output sensitivity to screen. original code commented out above */
-                  cout << "    Sens_Press" << "      Sens_AoA" << "      Sens_cb1" << endl;
+                  // AKB: Output sensitivity header to screen
+                  //cout << "    Sens_Press" << "      Sens_AoA" << endl;                  
+                  cout << "    Sens_Press" << "      Sens_AoA" << "      Sens_cb1" << "      Sens_sig" <<endl;
                   }
                   if (incompressible) {
                     cout << "      Sens_Vin" << "     Sens_Pout" << endl;
@@ -6260,8 +6267,8 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
         case ADJ_RANS : case DISC_ADJ_RANS:
           
           if (!DualTime_Iteration) {
-            //ConvHist_file[0] << begin << adjoint_coeff << adj_flow_resid;
-            /* AKB: Write SA sensitivities to file (original code above commented out) */
+            // AKB: Write SA sensitivities to file
+            //ConvHist_file[0] << begin << adjoint_coeff << adj_flow_resid;            
             ConvHist_file[0] << begin << adjoint_coeff << adjoint_coeff_SA << adj_flow_resid;
             if (!frozen_visc)
               ConvHist_file[0] << adj_turb_resid;
@@ -6294,8 +6301,9 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
                   if (compressible) {
                   cout.width(14); cout << Total_Sens_Press;
                   cout.width(14); cout << Total_Sens_AoA;
-                  /*AKB: output SA sensitivity to screen */
+                  // AKB: Output SA sensitivity to screen
                   cout.width(14); cout << Total_Sens_cb1;                  
+                  cout.width(14); cout << Total_Sens_sig;                  
                   }
                   if (incompressible) {
                     cout.width(14); cout << Total_Sens_ModVel;

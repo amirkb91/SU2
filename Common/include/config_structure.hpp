@@ -70,8 +70,8 @@ using namespace std;
 
 class CConfig {
 private:
-  /*----------------------------------------------------*/
-  /* AKB: Declare user defined SA Coefficients */
+  /***************************************************************************/
+  // AKB: Declare user defined SA Coefficients
   su2double cb1_usrdef;
   su2double sig_usrdef;
   su2double cb2_usrdef;
@@ -81,7 +81,7 @@ private:
   su2double cv1_usrdef;
   su2double ct3_usrdef;
   su2double ct4_usrdef;
-  /*----------------------------------------------------*/
+  /***************************************************************************/
 
   SU2_MPI::Comm SU2_Communicator; /*!< \brief MPI communicator of SU2.*/
   int rank, size;
@@ -2656,9 +2656,8 @@ public:
    */
   void SetTotal_UnstTimeND(su2double val_total_unsttimend);
   
-  /*-----------------------------------------------------------------*/
-  /* AKB: Declare the functions for returning and setting the SA coefficients.
-          Functions are defined in config_structure.inl */
+/***************************************************************************/
+  // AKB: Declare the functions for returning the SA coefficients from config.
   su2double GetSA_cb1(void);
   su2double GetSA_sig(void);
   su2double GetSA_cb2(void);
@@ -2668,7 +2667,7 @@ public:
   su2double GetSA_cv1(void);
   su2double GetSA_ct3(void);
   su2double GetSA_ct4(void);
-  /*-----------------------------------------------------------------*/
+/***************************************************************************/
 
   /*!
    * \brief Get the angle of attack of the body. This is the angle between a reference line on a lifting body

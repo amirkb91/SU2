@@ -592,12 +592,6 @@ inline void CSolver::Source_Residual(CGeometry *geometry, CSolver **solver_conta
 inline void CSolver::Source_Template(CGeometry *geometry, CSolver **solver_container, 
                           CNumerics *numerics, CConfig *config, unsigned short iMesh) { }
 
-/******************************************************************************/
-/* AKB: Inline fucntions for the CSolver class (defined there as virtual) */
-inline su2double CSolver::GetTotal_Sens_cb1(void) { return 0; }
-inline su2double CSolver::GetSA_cb1_solver(void) {return 0; }
-/******************************************************************************/
-
 inline su2double CSolver::GetTotal_Sens_Geo() { return 0; }
 
 inline su2double CSolver::GetTotal_Sens_Mach() { return 0; }
@@ -2362,14 +2356,6 @@ inline void CSolver::ExtractAdjoint_CrossTerm_Geometry_Flow(CGeometry *geometry,
 
 inline void CSolver::SetMesh_Recording(CGeometry **geometry, CVolumetricMovement *grid_movement, CConfig *config) {}
 
-/******************************************************************************/
-/* AKB: Inline fucntions for getting the sensitiviy values */
-inline su2double CDiscAdjSolver::GetTotal_Sens_cb1(void) { return Total_Sens_cb1; }
-inline su2double CDiscAdjSolver::GetSA_cb1_solver(void) {
-    std::cout << "AKB: inside GetSA_cb1_solver returning cb1_adj as: "<< cb1_adj << '\n';
-    return cb1_adj; }
-/******************************************************************************/
-
 inline su2double CDiscAdjSolver::GetTotal_Sens_Geo() { return Total_Sens_Geo; }
 
 inline su2double CDiscAdjSolver::GetTotal_Sens_Mach() { return Total_Sens_Mach; }
@@ -2539,3 +2525,20 @@ inline unsigned short CDiscAdjFEASolver::GetnDVFEA(void) { return nDV; }
 inline su2double CDiscAdjFEASolver::GetVal_EField(unsigned short iVal) { return EField[iVal]; }
 
 inline su2double CDiscAdjFEASolver::GetVal_DVFEA(unsigned short iVal) { return DV_Val[iVal]; }
+/***************************************************************************/
+// AKB: Functions for returning sensitivity values from solver
+// Virtuals
+inline su2double CSolver::GetTotal_Sens_cb1(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_sig(void) { return 0; }
+// Child functions
+inline su2double CDiscAdjSolver::GetTotal_Sens_cb1(void) { return Total_Sens_cb1; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_sig(void) { return Total_Sens_sig; }
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+// Functions for returning SA coefficients from solver
+// Virtuals
+inline su2double CSolver::GetSA_cb1_solver(void) {return 0; }
+inline su2double CSolver::GetSA_sig_solver(void) {return 0; }
+// Child functions
+inline su2double CDiscAdjSolver::GetSA_cb1_solver(void) { return cb1_adj; }
+inline su2double CDiscAdjSolver::GetSA_sig_solver(void) { return sig_adj; }
+/******************************************************************************/

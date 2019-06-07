@@ -1302,17 +1302,17 @@ public:
                       unsigned short kind_recording);
 
  /***************************************************************************************************/
- /* AKB: Overload the original SetDependencies and add one with numerics_container as input
+ /* AKB: Remove the original SetDependencies and add one with numerics_container as input
          It is already defined as virtual in parent class since it's used in CDiscAdjFEAIteration */
-  /*!
-   * \brief Compute necessary variables that depend on the conservative variables or the mesh node positions
-   * (e.g. turbulent variables, normals, volumes).
-   * \param[in] solver_container - Container vector with all the solutions.
-   * \param[in] geometry_container - Geometrical definition of the problem.
-   * \param[in] config_container - Definition of the particular problem.
-   * \param[in] iZone - Index of the zone.
-   * \param[in] kind_recording - The kind of recording (geometry or flow).
-   */
+//  /*!
+//   * \brief Compute necessary variables that depend on the conservative variables or the mesh node positions
+//   * (e.g. turbulent variables, normals, volumes).
+//   * \param[in] solver_container - Container vector with all the solutions.
+//   * \param[in] geometry_container - Geometrical definition of the problem.
+//   * \param[in] config_container - Definition of the particular problem.
+//   * \param[in] iZone - Index of the zone.
+//   * \param[in] kind_recording - The kind of recording (geometry or flow).
+//   */
 //  void SetDependencies(CSolver *****solver_container,
 //                       CGeometry ****geometry_container,
 //                       CConfig **config_container,
