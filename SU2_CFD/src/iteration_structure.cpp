@@ -2457,7 +2457,7 @@ void CDiscAdjFluidIteration::RegisterInput(CSolver *****solver_container, CGeome
 
 }
 
-/* AKB: Add numerics_container input, comment out original code */
+// AKB: Add numerics_container input, comment out original code
 //void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeometry ****geometry_container, CConfig **config_container, unsigned short iZone, unsigned short iInst, unsigned short kind_recording){
 void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeometry ****geometry_container, CNumerics ******numerics_container, CConfig **config_container, unsigned short iZone, unsigned short iInst, unsigned short kind_recording){
 
@@ -2489,15 +2489,18 @@ void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeo
     solver_container[iZone][iInst][MESH_0][HEAT_SOL]->Set_MPI_Solution(geometry_container[iZone][iInst][MESH_0], config_container[iZone]);
   }
   
-  /* AKB: Update numerics container with SA coefficients from solver (where AD is registered) */
-  // from driver_structure.cpp::
-  // solver_container[val_iInst][iMGlevel][ADJTURB_SOL] = new CDiscAdjSolver() {if frozen_visc is false}
-  // numerics_container[val_iInst][iMGlevel][TURB_SOL][VISC_TERM] = new CAvgGrad_TurbSA()
-  // numerics_container[val_iInst][iMGlevel][TURB_SOL][SOURCE_FIRST_TERM] = new CSourcePieceWise_TurbSA() 
-  
-  //numerics_container[iZone][iInst][MESH_0][TURB_SOL][VISC_TERM]->SetSA_num_cb1(solver_container[iZone][iInst][MESH_0][ADJTURB_SOL]->GetSA_cb1_solver());
-  numerics_container[iZone][iInst][MESH_0][TURB_SOL][SOURCE_FIRST_TERM]->SetSA_num_cb1(solver_container[iZone][iInst][MESH_0][ADJTURB_SOL]->GetSA_cb1_solver());
-  std::cout << "AKB: numerics_container has Set cb1 inside iteration_structure\n";
+  /***************************************************************************/
+  /* AKB: Update numerics container with SA coefficients from solver (where AD is registered) 
+     from driver_structure.cpp::
+     solver_container[val_iInst][iMGlevel][ADJFLOW_SOL] = new CDiscAdjSolver()
+     numerics_container[val_iInst][iMGlevel][TURB_SOL][VISC_TERM] = new CAvgGrad_TurbSA()
+     numerics_container[val_iInst][iMGlevel][TURB_SOL][SOURCE_FIRST_TERM] = new CSourcePieceWise_TurbSA()
+     numerics_container[val_iInst][iMGlevel][TURB_SOL][VISC_BOUND_TERM] = new CAvgGrad_TurbSA {{THIS ONE DOESN'T SEEM TO AFFECT THE GRADIENT wrt Sigma}}
+   */
+  numerics_container[iZone][iInst][MESH_0][TURB_SOL][VISC_TERM]->SetSA_num_sig(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_sig_solver());
+  numerics_container[iZone][iInst][MESH_0][TURB_SOL][SOURCE_FIRST_TERM]->SetSA_num_cb1(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_cb1_solver());
+  // numerics_container[iZone][iInst][MESH_0][TURB_SOL][VISC_BOUND_TERM]->SetSA_num_sig(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_sig_solver());
+  /***************************************************************************/
 }
 
 void CDiscAdjFluidIteration::RegisterOutput(CSolver *****solver_container, CGeometry ****geometry_container, CConfig **config_container, COutput* output, unsigned short iZone, unsigned short iInst){

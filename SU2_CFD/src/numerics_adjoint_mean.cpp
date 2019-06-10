@@ -1373,22 +1373,22 @@ void CSourceConservative_AdjFlow::ComputeResidual (su2double *val_residual, CCon
   su2double rho, nu, Ji, fv1, fv2, Omega, Shat, dist_sq, Ji_2, Ji_3, one_o_oneplusJifv1;
   su2double r, g, g_6, glim, dfw_g, dg_r, dr_nuhat, dr_Shat, Ms_coeff, invOmega;
   
-  /* AKB: modify closure coefficients */
-  su2double cb1   = config->GetSA_cb1();
-  su2double sigma = config->GetSA_sig();
-  su2double cb2   = config->GetSA_cb2();
-  su2double k2    = pow(config->GetSA_kar(), 2.0);
-  su2double cw2   = config->GetSA_cw2();
-  su2double cw3_6 = pow(config->GetSA_cw3(), 6.0);
-  su2double cv1_3 = pow(config->GetSA_cv1(), 3.0);
+  /* AKB: Modify closure coefficients */
+  //su2double cb1   = config->GetSA_cb1();
+  //su2double sigma = config->GetSA_sig();
+  //su2double cb2   = config->GetSA_cb2();
+  //su2double k2    = pow(config->GetSA_kar(), 2.0);
+  //su2double cw2   = config->GetSA_cw2();
+  //su2double cw3_6 = pow(config->GetSA_cw3(), 6.0);
+  //su2double cv1_3 = pow(config->GetSA_cv1(), 3.0);
 
-  //su2double cv1_3 = 7.1*7.1*7.1;
-  //su2double k2 = 0.41*0.41;
-  //su2double cb1 = 0.1355;
-  //su2double cw2 = 0.3;
-  //su2double cw3_6 = pow(2.0,6.0);
-  //su2double sigma = 2./3.;
-  //su2double cb2 = 0.622;
+  su2double cv1_3 = 7.1*7.1*7.1;
+  su2double k2 = 0.41*0.41;
+  su2double cb1 = 0.1355;
+  su2double cw2 = 0.3;
+  su2double cw3_6 = pow(2.0,6.0);
+  su2double sigma = 2./3.;
+  su2double cb2 = 0.622;
   su2double cw1 = cb1/k2+(1+cb2)/sigma;
   
   for (iVar = 0; iVar < nVar; iVar++) {

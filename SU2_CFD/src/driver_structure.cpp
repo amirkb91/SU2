@@ -4625,7 +4625,7 @@ void CDiscAdjFluidDriver::SetRecording(unsigned short kind_recording){
   }
 
   for (iZone = 0; iZone < nZone; iZone++) {
-    /* AKB: added numerics_container to arguments, original commented out */  
+    // AKB: Add numerics_container to arguments for CDiscAdjFluidIteration::SetDependencies
     //iteration_container[iZone][INST_0]->SetDependencies(solver_container, geometry_container, config_container, iZone, INST_0, kind_recording);
     iteration_container[iZone][INST_0]->SetDependencies(solver_container, geometry_container, numerics_container, config_container, iZone, INST_0, kind_recording);
   }

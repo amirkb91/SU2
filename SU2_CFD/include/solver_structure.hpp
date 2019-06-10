@@ -4367,12 +4367,14 @@ public:
    */
   virtual void SetDES_LengthScale(CSolver** solver, CGeometry *geometry, CConfig *config);
 
-  /********************************************************************************/
-  /* AKB: Virtual functions to get sensitivity values. */
+  /***************************************************************************/
+  // AKB: Functions for returning sensitivity values from solver
   virtual su2double GetTotal_Sens_cb1(void);
-  /* Virtual functions to get SA coeff values from solver. */
+  virtual su2double GetTotal_Sens_sig(void);
+  // Functions for returning SA coefficients from solver
   virtual su2double GetSA_cb1_solver(void);
-  /********************************************************************************/
+  virtual su2double GetSA_sig_solver(void);  
+  /***************************************************************************/
 };
 
 /*!
@@ -12675,12 +12677,14 @@ private:
   
   su2double *Solution_Geometry; /*!< \brief Auxiliary vector for the geometry solution (dimension nDim instead of nVar). */
 
-  /****************************************************************/
-  /*AKB: Sensitivities of closure coefficients */
+  /***************************************************************************/
+  // AKB: Declare coefficient sensitivity values
   su2double Total_Sens_cb1;
-  /* Closure coefficients for AD register  */
+  su2double Total_Sens_sig;
+  // Declare closure coefficients for AD register
   su2double cb1_adj;
-  /****************************************************************/  
+  su2double sig_adj;
+  /***************************************************************************/  
 
 public:
   
@@ -12935,12 +12939,14 @@ public:
    */
   void UpdateSolution_BGS(CGeometry *geometry, CConfig *config);
   
-  /************************************************************/
-  /* AKB: Functions for returning the sensitiviy values */
+  /***************************************************************************/
+  // AKB: Functions for returning sensitivity values from solver
   su2double GetTotal_Sens_cb1(void);
-  /* Functions for returning the coefficient values from solver */
+  su2double GetTotal_Sens_sig(void);
+  // Functions for returning SA coefficients from solver
   su2double GetSA_cb1_solver(void);
-  /************************************************************/   
+  su2double GetSA_sig_solver(void);
+  /***************************************************************************/  
 };
 
 /*!

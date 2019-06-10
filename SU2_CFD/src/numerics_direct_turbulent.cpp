@@ -227,8 +227,8 @@ void CAvgGrad_Scalar::ComputeResidual(su2double *val_residual,
 CAvgGrad_TurbSA::CAvgGrad_TurbSA(unsigned short val_nDim,
                                  unsigned short val_nVar, bool correct_grad,
                                  CConfig *config)
-  /* AKB: modify sigma. The commented line is the original code. */
-  /* : CAvgGrad_Scalar(val_nDim, val_nVar, correct_grad, config), sigma(2./3.) { */
+  /* AKB: Modify sigma. */
+   // : CAvgGrad_Scalar(val_nDim, val_nVar, correct_grad, config), sigma(2./3.) {
    : CAvgGrad_Scalar(val_nDim, val_nVar, correct_grad, config), sigma(config->GetSA_sig()) {
 }
 
@@ -262,9 +262,9 @@ CAvgGrad_TurbSA_Neg::CAvgGrad_TurbSA_Neg(unsigned short val_nDim,
                                          bool correct_grad,
                                          CConfig *config)
     : CAvgGrad_Scalar(val_nDim, val_nVar, correct_grad, config),
-    /* AKB: Modify sigma. Commented out is original code */
-      sigma(config->GetSA_sig()), cn1(16.0), fn(0.0) {
-      //sigma(2./3.), cn1(16.0), fn(0.0) {
+    /* AKB: Modify sigma. */
+    sigma(2./3.), cn1(16.0), fn(0.0) {
+    // sigma(config->GetSA_sig()), cn1(16.0), fn(0.0) {
 }
 
 CAvgGrad_TurbSA_Neg::~CAvgGrad_TurbSA_Neg(void) {
@@ -315,8 +315,7 @@ CSourcePieceWise_TurbSA::CSourcePieceWise_TurbSA(unsigned short val_nDim, unsign
   transition = (config->GetKind_Trans_Model() == BC);
   
   /*--- Spalart-Allmaras closure constants ---*/
-  /* AKB: modify closure constants */
-  std::cout << "AKB: We are inside CSourcePieceWise_TurbSA\n";
+  /* AKB: Modify closure coefficients */
   cb1   = config->GetSA_cb1();
   sigma = config->GetSA_sig();
   cb2   = config->GetSA_cb2();
@@ -327,15 +326,16 @@ CSourcePieceWise_TurbSA::CSourcePieceWise_TurbSA(unsigned short val_nDim, unsign
   ct3   = config->GetSA_ct3();
   ct4   = config->GetSA_ct4();
 
-  //cv1_3 = pow(7.1, 3.0);
-  //k2    = pow(0.41, 2.0);
-  //cb1   = 0.1355;
-  //cw2   = 0.3;
-  //ct3   = 1.2;
-  //ct4   = 0.5;
-  //cw3_6 = pow(2.0, 6.0);
-  //sigma = 2./3.;
-  //cb2   = 0.622;
+  // cv1_3 = pow(7.1, 3.0);
+  // k2    = pow(0.41, 2.0);
+  // cb1   = 0.1355;
+  // cw2   = 0.3;
+  // ct3   = 1.2;
+  // ct4   = 0.5;
+  // cw3_6 = pow(2.0, 6.0);
+  // sigma = 2./3.;
+  // cb2   = 0.622;
+  
   cb2_sigma = cb2/sigma;
   cw1 = cb1/k2+(1.0+cb2)/sigma;
   
@@ -499,26 +499,26 @@ CSourcePieceWise_TurbSA_E::CSourcePieceWise_TurbSA_E(unsigned short val_nDim, un
     rotating_frame = config->GetRotating_Frame();
     
     /*--- Spalart-Allmaras closure constants ---*/
-    /* AKB: modify closure constants */
-    cb1   = config->GetSA_cb1();
-    sigma = config->GetSA_sig();
-    cb2   = config->GetSA_cb2();
-    k2    = pow(config->GetSA_kar(), 2.0);
-    cw2   = config->GetSA_cw2();
-    cw3_6 = pow(config->GetSA_cw3(), 6.0);
-    cv1_3 = pow(config->GetSA_cv1(), 3.0);
-    ct3   = config->GetSA_ct3();
-    ct4   = config->GetSA_ct4();
+    /* AKB: Modify closure coefficients */
+    // cb1   = config->GetSA_cb1();
+    // sigma = config->GetSA_sig();
+    // cb2   = config->GetSA_cb2();
+    // k2    = pow(config->GetSA_kar(), 2.0);
+    // cw2   = config->GetSA_cw2();
+    // cw3_6 = pow(config->GetSA_cw3(), 6.0);
+    // cv1_3 = pow(config->GetSA_cv1(), 3.0);
+    // ct3   = config->GetSA_ct3();
+    // ct4   = config->GetSA_ct4();
 
-    //cv1_3 = pow(7.1, 3.0);
-    //k2    = pow(0.41, 2.0);
-    //cb1   = 0.1355;
-    //cw2   = 0.3;
-    //ct3   = 1.2;
-    //ct4   = 0.5;
-    //cw3_6 = pow(2.0, 6.0);
-    //sigma = 2./3.;
-    //cb2   = 0.622;
+    cv1_3 = pow(7.1, 3.0);
+    k2    = pow(0.41, 2.0);
+    cb1   = 0.1355;
+    cw2   = 0.3;
+    ct3   = 1.2;
+    ct4   = 0.5;
+    cw3_6 = pow(2.0, 6.0);
+    sigma = 2./3.;
+    cb2   = 0.622;
     cb2_sigma = cb2/sigma;
     cw1 = cb1/k2+(1.0+cb2)/sigma;
     
@@ -652,26 +652,26 @@ CSourcePieceWise_TurbSA_COMP::CSourcePieceWise_TurbSA_COMP(unsigned short val_nD
     rotating_frame = config->GetRotating_Frame();
     
     /*--- Spalart-Allmaras closure constants ---*/
-    /* AKB: modify closure constants */
-    cb1   = config->GetSA_cb1();
-    sigma = config->GetSA_sig();
-    cb2   = config->GetSA_cb2();
-    k2    = pow(config->GetSA_kar(), 2.0);
-    cw2   = config->GetSA_cw2();
-    cw3_6 = pow(config->GetSA_cw3(), 6.0);
-    cv1_3 = pow(config->GetSA_cv1(), 3.0);
-    ct3   = config->GetSA_ct3();
-    ct4   = config->GetSA_ct4();
+    /* AKB: Modify closure coefficients */
+    // cb1   = config->GetSA_cb1();
+    // sigma = config->GetSA_sig();
+    // cb2   = config->GetSA_cb2();
+    // k2    = pow(config->GetSA_kar(), 2.0);
+    // cw2   = config->GetSA_cw2();
+    // cw3_6 = pow(config->GetSA_cw3(), 6.0);
+    // cv1_3 = pow(config->GetSA_cv1(), 3.0);
+    // ct3   = config->GetSA_ct3();
+    // ct4   = config->GetSA_ct4();
 
-    //cv1_3 = pow(7.1, 3.0);
-    //k2    = pow(0.41, 2.0);
-    //cb1   = 0.1355;
-    //cw2   = 0.3;
-    //ct3   = 1.2;
-    //ct4   = 0.5;
-    //cw3_6 = pow(2.0, 6.0);
-    //sigma = 2./3.;
-    //cb2   = 0.622;
+    cv1_3 = pow(7.1, 3.0);
+    k2    = pow(0.41, 2.0);
+    cb1   = 0.1355;
+    cw2   = 0.3;
+    ct3   = 1.2;
+    ct4   = 0.5;
+    cw3_6 = pow(2.0, 6.0);
+    sigma = 2./3.;
+    cb2   = 0.622;
     cb2_sigma = cb2/sigma;
     cw1 = cb1/k2+(1.0+cb2)/sigma;
     c5 = 3.5;
@@ -800,26 +800,26 @@ CSourcePieceWise_TurbSA_E_COMP::CSourcePieceWise_TurbSA_E_COMP(unsigned short va
     rotating_frame = config->GetRotating_Frame();
     
     /*--- Spalart-Allmaras closure constants ---*/
-    /* AKB: modify closure constants */
-    cb1   = config->GetSA_cb1();
-    sigma = config->GetSA_sig();
-    cb2   = config->GetSA_cb2();
-    k2    = pow(config->GetSA_kar(), 2.0);
-    cw2   = config->GetSA_cw2();
-    cw3_6 = pow(config->GetSA_cw3(), 6.0);
-    cv1_3 = pow(config->GetSA_cv1(), 3.0);
-    ct3   = config->GetSA_ct3();
-    ct4   = config->GetSA_ct4();
+    /* AKB: Modify closure coefficients */
+    // cb1   = config->GetSA_cb1();
+    // sigma = config->GetSA_sig();
+    // cb2   = config->GetSA_cb2();
+    // k2    = pow(config->GetSA_kar(), 2.0);
+    // cw2   = config->GetSA_cw2();
+    // cw3_6 = pow(config->GetSA_cw3(), 6.0);
+    // cv1_3 = pow(config->GetSA_cv1(), 3.0);
+    // ct3   = config->GetSA_ct3();
+    // ct4   = config->GetSA_ct4();
 
-    //cv1_3 = pow(7.1, 3.0);
-    //k2    = pow(0.41, 2.0);
-    //cb1   = 0.1355;
-    //cw2   = 0.3;
-    //ct3   = 1.2;
-    //ct4   = 0.5;
-    //cw3_6 = pow(2.0, 6.0);
-    //sigma = 2./3.;
-    //cb2   = 0.622;
+    cv1_3 = pow(7.1, 3.0);
+    k2    = pow(0.41, 2.0);
+    cb1   = 0.1355;
+    cw2   = 0.3;
+    ct3   = 1.2;
+    ct4   = 0.5;
+    cw3_6 = pow(2.0, 6.0);
+    sigma = 2./3.;
+    cb2   = 0.622;
     cb2_sigma = cb2/sigma;
     cw1 = cb1/k2+(1.0+cb2)/sigma;
     
@@ -966,26 +966,26 @@ CSourcePieceWise_TurbSA_Neg::CSourcePieceWise_TurbSA_Neg(unsigned short val_nDim
   
   /*--- Negative Spalart-Allmaras closure constants ---*/
   
-  /*AKB: Modify closure constants */  
-  cb1   = config->GetSA_cb1();
-  sigma = config->GetSA_sig();
-  cb2   = config->GetSA_cb2();
-  k2    = pow(config->GetSA_kar(), 2.0);
-  cw2   = config->GetSA_cw2();
-  cw3_6 = pow(config->GetSA_cw3(), 6.0);
-  cv1_3 = pow(config->GetSA_cv1(), 3.0);
-  ct3   = config->GetSA_ct3();
-  ct4   = config->GetSA_ct4();
+  /* AKB: Modify closure coefficients */  
+  // cb1   = config->GetSA_cb1();
+  // sigma = config->GetSA_sig();
+  // cb2   = config->GetSA_cb2();
+  // k2    = pow(config->GetSA_kar(), 2.0);
+  // cw2   = config->GetSA_cw2();
+  // cw3_6 = pow(config->GetSA_cw3(), 6.0);
+  // cv1_3 = pow(config->GetSA_cv1(), 3.0);
+  // ct3   = config->GetSA_ct3();
+  // ct4   = config->GetSA_ct4();
 
-  //cv1_3 = pow(7.1, 3.0);
-  //k2    = pow(0.41, 2.0);
-  //cb1   = 0.1355;
-  //cw2   = 0.3;
-  //ct3   = 1.2;
-  //ct4   = 0.5;
-  //cw3_6 = pow(2.0, 6.0);
-  //sigma = 2./3.;
-  //cb2   = 0.622;
+  cv1_3 = pow(7.1, 3.0);
+  k2    = pow(0.41, 2.0);
+  cb1   = 0.1355;
+  cw2   = 0.3;
+  ct3   = 1.2;
+  ct4   = 0.5;
+  cw3_6 = pow(2.0, 6.0);
+  sigma = 2./3.;
+  cb2   = 0.622;
   cb2_sigma = cb2/sigma;
   cw1 = cb1/k2+(1.0+cb2)/sigma;
   
