@@ -1301,22 +1301,33 @@ public:
                       unsigned short val_iInst,
                       unsigned short kind_recording);
 
-  /*!
-   * \brief Compute necessary variables that depend on the conservative variables or the mesh node positions
-   * (e.g. turbulent variables, normals, volumes).
-   * \param[in] solver_container - Container vector with all the solutions.
-   * \param[in] geometry_container - Geometrical definition of the problem.
-   * \param[in] config_container - Definition of the particular problem.
-   * \param[in] iZone - Index of the zone.
-   * \param[in] kind_recording - The kind of recording (geometry or flow).
-   */
+ /***************************************************************************************************/
+ /* AKB: Remove the original SetDependencies and add one with numerics_container as input
+         It is already defined as virtual in parent class since it's used in CDiscAdjFEAIteration */
+//  /*!
+//   * \brief Compute necessary variables that depend on the conservative variables or the mesh node positions
+//   * (e.g. turbulent variables, normals, volumes).
+//   * \param[in] solver_container - Container vector with all the solutions.
+//   * \param[in] geometry_container - Geometrical definition of the problem.
+//   * \param[in] config_container - Definition of the particular problem.
+//   * \param[in] iZone - Index of the zone.
+//   * \param[in] kind_recording - The kind of recording (geometry or flow).
+//   */
+//  void SetDependencies(CSolver *****solver_container,
+//                       CGeometry ****geometry_container,
+//                       CConfig **config_container,
+//                       unsigned short iZone,
+//                       unsigned short iInst,
+//                       unsigned short kind_recording);
+                       
   void SetDependencies(CSolver *****solver_container,
                        CGeometry ****geometry_container,
+                       CNumerics ******numerics_container,
                        CConfig **config_container,
                        unsigned short iZone,
                        unsigned short iInst,
-                       unsigned short kind_recording);
-
+                       unsigned short kind_recording);                       
+/***************************************************************************************************/
   /*!
    * \brief load unsteady solution for unsteady problems
    * \param[in] geometry_container - Geometrical definition of the problem.

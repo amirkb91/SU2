@@ -3082,13 +3082,6 @@ public:
    */
   virtual su2double GetPhi_Inf(unsigned short val_dim);
 
-  /********************************************************************************/
-  /* AKB: Add virtual functions to get sensitivity values. */
-  // only done cb1 for now
-  virtual su2double GetTotal_Sens_cb1(void);
-
-  /********************************************************************************/  
-  
   /*!
    * \brief A virtual member.
    * \return Value of the geometrical sensitivity coefficient
@@ -4374,6 +4367,14 @@ public:
    */
   virtual void SetDES_LengthScale(CSolver** solver, CGeometry *geometry, CConfig *config);
 
+  /***************************************************************************/
+  // AKB: Functions for returning sensitivity values from solver
+  virtual su2double GetTotal_Sens_cb1(void);
+  virtual su2double GetTotal_Sens_sig(void);
+  // Functions for returning SA coefficients from solver
+  virtual su2double GetSA_cb1_solver(void);
+  virtual su2double GetSA_sig_solver(void);  
+  /***************************************************************************/
 };
 
 /*!
@@ -12676,12 +12677,14 @@ private:
   
   su2double *Solution_Geometry; /*!< \brief Auxiliary vector for the geometry solution (dimension nDim instead of nVar). */
 
-  /****************************************************************/
-  /*AKB: New variables for sensitivities of closure coefficients */
-  /* Only done cb1 for now */
+  /***************************************************************************/
+  // AKB: Declare coefficient sensitivity values
   su2double Total_Sens_cb1;
+  su2double Total_Sens_sig;
+  // Declare closure coefficients for AD register
   su2double cb1_adj;
-  /****************************************************************/  
+  su2double sig_adj;
+  /***************************************************************************/  
 
 public:
   
@@ -12812,12 +12815,6 @@ public:
    */
   void SetAdj_ObjFunc(CGeometry *geometry, CConfig* config);
 
-  /************************************************************/
-  /* AKB: Declare functions for getting the sensitiviy values */
-  // only done cb1
-  su2double GetTotal_Sens_cb1(void);
-  /************************************************************/  
-  
   /*!
    * \brief Provide the total shape sensitivity coefficient.
    * \return Value of the geometrical sensitivity coefficient
@@ -12941,6 +12938,15 @@ public:
    * \param[in] val_iterlinsolver - Number of linear iterations.
    */
   void UpdateSolution_BGS(CGeometry *geometry, CConfig *config);
+  
+  /***************************************************************************/
+  // AKB: Functions for returning sensitivity values from solver
+  su2double GetTotal_Sens_cb1(void);
+  su2double GetTotal_Sens_sig(void);
+  // Functions for returning SA coefficients from solver
+  su2double GetSA_cb1_solver(void);
+  su2double GetSA_sig_solver(void);
+  /***************************************************************************/  
 };
 
 /*!

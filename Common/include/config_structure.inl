@@ -2095,3 +2095,15 @@ inline unsigned short CConfig::GetEig_Val_Comp(void) {return eig_val_comp; }
 inline su2double CConfig::GetUQ_URLX(void) {return uq_urlx; }
 
 inline bool CConfig::GetUQ_Permute(void) { return uq_permute; }
+/***************************************************************************/
+// AKB: Functions for returning the SA coefficients from config.
+inline su2double CConfig::GetSA_cb1(void) { return cb1_usrdef; }
+inline su2double CConfig::GetSA_sig(void) { return sig_usrdef; }
+inline su2double CConfig::GetSA_cb2(void) { return cb2_usrdef; }
+inline su2double CConfig::GetSA_kar(void) { return kar_usrdef; }
+inline su2double CConfig::GetSA_cw2(void) { return cw2_usrdef; }
+inline su2double CConfig::GetSA_cw3(void) { return cw3_usrdef; }
+inline su2double CConfig::GetSA_cv1(void) { return cv1_usrdef; }
+inline su2double CConfig::GetSA_ct3(void) { return ct3_usrdef; }
+inline su2double CConfig::GetSA_ct4(void) { return ct4_usrdef; }
+/***************************************************************************/

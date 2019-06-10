@@ -362,17 +362,21 @@ void CDiscAdjSolver::RegisterVariables(CGeometry *geometry, CConfig *config, boo
   /*--- Here it is possible to register other variables as input that influence the flow solution
    * and thereby also the objective function. The adjoint values (i.e. the derivatives) can be
    * extracted in the ExtractAdjointVariables routine. ---*/
-   /* AKB: Get the closure coefficients for registration */
+   
+   /***************************************************************************/
+   // AKB: Register the SA coefficients inside AD
   if((config->GetKind_Regime() == COMPRESSIBLE) && (KindDirect_Solver == RUNTIME_FLOW_SYS && !config->GetBoolTurbomachinery())) {
 
     cb1_adj = config->GetSA_cb1();
-
+    sig_adj = config->GetSA_sig();
+    
     if (!reset) {
       AD::RegisterInput(cb1_adj);
+      AD::RegisterInput(sig_adj);
     }
+  }
+  /***************************************************************************/  
 
-    config->SetSA_cb1(cb1_adj);
-  }  
 }
 
 void CDiscAdjSolver::RegisterOutput(CGeometry *geometry, CConfig *config) {
@@ -605,19 +609,26 @@ void CDiscAdjSolver::ExtractAdjoint_Variables(CGeometry *geometry, CConfig *conf
   }
 
   /*--- Extract here the adjoint values of everything else that is registered as input in RegisterInput. ---*/
-  /* AKB: Extract the adjoint variables for the closure coefficients */
+  
+  /***************************************************************************/
+  // AKB: Extract the derivatives of the closure coefficients
   if ((config->GetKind_Regime() == COMPRESSIBLE) && (KindDirect_Solver == RUNTIME_FLOW_SYS) && !config->GetBoolTurbomachinery()) {
 
     su2double Local_Sens_cb1;
+    su2double Local_Sens_sig;
 
     Local_Sens_cb1  = SU2_TYPE::GetDerivative(cb1_adj);
+    Local_Sens_sig  = SU2_TYPE::GetDerivative(sig_adj);
 
 #ifdef HAVE_MPI
     SU2_MPI::Allreduce(&Local_Sens_cb1,  &Total_Sens_cb1,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_sig,  &Total_Sens_sig,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 #else
     Total_Sens_cb1  = Local_Sens_cb1;
+    Total_Sens_sig  = Local_Sens_sig;
 #endif
-  }  
+  }
+  /***************************************************************************/  
 
 }
 

@@ -102,10 +102,10 @@ void CUpwSca_AdjTurb::ComputeResidual (su2double *val_residual_i, su2double *val
   unsigned short iDim;
   su2double proj_conv_flux_i = 0, proj_conv_flux_j = 0, proj_conv_flux_ij = 0;
   
-  /* AKB: Modify closure coefficient */
-  su2double sigma = config->GetSA_sig();
+  /* AKB: Modify closure coefficients */
+  // su2double sigma = config->GetSA_sig();
 
-  //su2double sigma = 2./3.;
+  su2double sigma = 2./3.;
   
   for (iDim = 0; iDim < nDim; iDim++) {
     Velocity_i[iDim] = U_i[iDim+1]/U_i[0];
@@ -156,9 +156,9 @@ void CAvgGradCorrected_AdjTurb::ComputeResidual(su2double *val_residual, su2doub
   bool implicit = (config->GetKind_TimeIntScheme_AdjTurb() == EULER_IMPLICIT);
   
   /* AKB: Modify closure coefficients */
-  su2double sigma = config->GetSA_sig();
+  // su2double sigma = config->GetSA_sig();
 
-  //su2double sigma = 2./3.;
+  su2double sigma = 2./3.;
   su2double nu_i, nu_j, nu_e;
   su2double dist_ij_2 = 0;
   su2double proj_vector_ij = 0;
@@ -210,9 +210,9 @@ void CAvgGradCorrected_AdjTurb::ComputeResidual(su2double *val_residual_i, su2do
   bool implicit = (config->GetKind_TimeIntScheme_AdjTurb() == EULER_IMPLICIT);
   
   /* AKB: Modify closure coefficients */
-  su2double sigma = config->GetSA_sig();
+  // su2double sigma = config->GetSA_sig();
 
-  //su2double sigma = 2./3.;
+  su2double sigma = 2./3.;
   su2double nu_i, nu_j, nu_e_i, nu_e_j;
   su2double dist_ij_2 = 0;
   su2double proj_vector_ij = 0;
@@ -292,9 +292,9 @@ void CAvgGrad_AdjTurb::ComputeResidual(su2double *val_residual, su2double **val_
   bool implicit = (config->GetKind_TimeIntScheme_AdjTurb() == EULER_IMPLICIT);
   
   /* AKB: Modify closure coefficients */
-  su2double sigma = config->GetSA_sig();
+  // su2double sigma = config->GetSA_sig();
 
-  //su2double sigma = 2./3.;
+  su2double sigma = 2./3.;
   su2double nu_i, nu_j, nu_e;
   su2double dist_ij_2 = 0;
   su2double proj_vector_ij = 0;
@@ -341,10 +341,10 @@ void CAvgGrad_AdjTurb::ComputeResidual(su2double *val_residual_i, su2double *val
   
   bool implicit = (config->GetKind_TimeIntScheme_AdjTurb() == EULER_IMPLICIT);
   
-  /* AKB: Modify closure coefficient */
-  su2double sigma = config->GetSA_sig();
+  /* AKB: Modify closure coefficients */
+  // su2double sigma = config->GetSA_sig();
 
-  //su2double sigma = 2./3.;
+  su2double sigma = 2./3.;
   su2double nu_i, nu_j, nu_e_i, nu_e_j;
   su2double dist_ij_2 = 0;
   su2double proj_vector_ij = 0;
@@ -435,26 +435,26 @@ void CSourcePieceWise_AdjTurb::ComputeResidual(su2double *val_residual, su2doubl
     
     /*--- FIRST PART: -Bs*TurbPsi_i ---*/
     /*--- CLOUSURE CONSTANTS ---*/
-    /* AKB: modify closure coefficients */
-    su2double cb1   = config->GetSA_cb1();
-    su2double sigma = config->GetSA_sig();
-    su2double cb2   = config->GetSA_cb2();
-    su2double k     = config->GetSA_kar();
-    su2double k2    = pow(config->GetSA_kar(), 2.0);
-    su2double cw2   = config->GetSA_cw2();
-    su2double cw3_6 = pow(config->GetSA_cw3(), 6.0);
-    su2double cv1   = config->GetSA_cv1();
-    su2double cv1_3 = pow(config->GetSA_cv1(), 3.0);
+    /* AKB: Modify closure coefficients */
+    // su2double cb1   = config->GetSA_cb1();
+    // su2double sigma = config->GetSA_sig();
+    // su2double cb2   = config->GetSA_cb2();
+    // su2double k     = config->GetSA_kar();
+    // su2double k2    = pow(config->GetSA_kar(), 2.0);
+    // su2double cw2   = config->GetSA_cw2();
+    // su2double cw3_6 = pow(config->GetSA_cw3(), 6.0);
+    // su2double cv1   = config->GetSA_cv1();
+    // su2double cv1_3 = pow(config->GetSA_cv1(), 3.0);
 
-    //su2double cv1 = 7.1;
-    //su2double cv1_3 = cv1*cv1*cv1;
-    //su2double k = 0.41;
-    //su2double k2 = k*k;
-    //su2double cb1 = 0.1355;
-    //su2double cw2 = 0.3;
-    //su2double cw3_6 = pow(2.0,6.0);
-    //su2double sigma = 2./3.;
-    //su2double cb2 = 0.622;
+    su2double cv1 = 7.1;
+    su2double cv1_3 = cv1*cv1*cv1;
+    su2double k = 0.41;
+    su2double k2 = k*k;
+    su2double cb1 = 0.1355;
+    su2double cw2 = 0.3;
+    su2double cw3_6 = pow(2.0,6.0);
+    su2double sigma = 2./3.;
+    su2double cb2 = 0.622;
     su2double cw1 = cb1/k2+(1+cb2)/sigma;
     
     su2double nu, Ji, fv1, fv2, Shat, dist_0_2, Ji_2, Ji_3, one_o_oneplusJifv1;
@@ -553,11 +553,11 @@ void CSourceConservative_AdjTurb::ComputeResidual(su2double *val_residual, su2do
   bool implicit = (config->GetKind_TimeIntScheme_AdjTurb() == EULER_IMPLICIT);
   
   /* AKB: Modify closure coefficients */
-  su2double cb2   = config->GetSA_cb2();
-  su2double sigma = config->GetSA_sig();
+  // su2double cb2   = config->GetSA_cb2();
+  // su2double sigma = config->GetSA_sig();
 
-  //su2double cb2 = 0.622;
-  //su2double sigma = 2./3.;
+  su2double cb2 = 0.622;
+  su2double sigma = 2./3.;
   su2double coeff = 2.0*cb2/sigma;
   su2double E_ij, proj_TurbVar_Grad_i, proj_TurbVar_Grad_j;
   

@@ -2536,3 +2536,20 @@ inline unsigned short CDiscAdjFEASolver::GetnDVFEA(void) { return nDV; }
 inline su2double CDiscAdjFEASolver::GetVal_EField(unsigned short iVal) { return EField[iVal]; }
 
 inline su2double CDiscAdjFEASolver::GetVal_DVFEA(unsigned short iVal) { return DV_Val[iVal]; }
+/***************************************************************************/
+// AKB: Functions for returning sensitivity values from solver
+// Virtuals
+inline su2double CSolver::GetTotal_Sens_cb1(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_sig(void) { return 0; }
+// Child functions
+inline su2double CDiscAdjSolver::GetTotal_Sens_cb1(void) { return Total_Sens_cb1; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_sig(void) { return Total_Sens_sig; }
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+// Functions for returning SA coefficients from solver
+// Virtuals
+inline su2double CSolver::GetSA_cb1_solver(void) {return 0; }
+inline su2double CSolver::GetSA_sig_solver(void) {return 0; }
+// Child functions
+inline su2double CDiscAdjSolver::GetSA_cb1_solver(void) { return cb1_adj; }
+inline su2double CDiscAdjSolver::GetSA_sig_solver(void) { return sig_adj; }
+/******************************************************************************/

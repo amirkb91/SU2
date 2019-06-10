@@ -1494,6 +1494,11 @@ public:
    */
   static void tql2(su2double **V, su2double *d, su2double *e, unsigned short n);
   
+  /***************************************************************************/
+  // AKB: Functions for setting the SA coefficients inside numerics classes
+  virtual void SetSA_num_cb1(su2double val_cb1);
+  virtual void SetSA_num_sig(su2double val_sig);
+  /***************************************************************************/
 };
 
 /*!
@@ -3537,8 +3542,9 @@ class CAvgGrad_Scalar : public CNumerics {
  */
 class CAvgGrad_TurbSA : public CAvgGrad_Scalar {
 private:
-
-  const su2double sigma;
+  // AKB: Un-Const sigma because it needs to change  
+  // const su2double sigma;
+  su2double sigma;
   su2double nu_i, nu_j, nu_e;
 
   /*!
@@ -3571,6 +3577,10 @@ public:
    * \brief Destructor of the class.
    */
   ~CAvgGrad_TurbSA(void);
+ /***************************************************************************/ 
+ // AKB: Functions for setting the SA coefficients inside numerics classes
+ void SetSA_num_sig(su2double val_sig); 
+ /***************************************************************************/
 };
 
 /*!
@@ -4587,6 +4597,11 @@ public:
    * \brief  ______________.
    */
   su2double GetCrossProduction(void);
+  
+ /***************************************************************************/ 
+ // AKB: Functions for setting the SA coefficients inside numerics classes
+ void SetSA_num_cb1(su2double val_cb1); 
+ /***************************************************************************/
 };
 
 /*!

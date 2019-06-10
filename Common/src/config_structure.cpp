@@ -915,7 +915,7 @@ void CConfig::SetConfig_Options(unsigned short val_iZone, unsigned short val_nZo
   /* DESCRIPTION:  */
   addDoubleOption("FREESTREAM_TURB2LAMVISCRATIO", Turb2LamViscRatio_FreeStream, 10.0);
 
-  /*------------------------------------------------------------------------------------*/
+  /***************************************************************************/
   /* AKB: Add Config file entries for the SA coefficients.
           Adds options with default values.
           Note name of variables which should be used in config file. */
@@ -928,7 +928,7 @@ void CConfig::SetConfig_Options(unsigned short val_iZone, unsigned short val_nZo
   addDoubleOption("SA_CV1", cv1_usrdef, 7.1);
   addDoubleOption("SA_CT3", ct3_usrdef, 1.2);
   addDoubleOption("SA_CT4", ct4_usrdef, 0.5);
-  /*------------------------------------------------------------------------------------*/
+  /***************************************************************************/
 
   /* DESCRIPTION: Side-slip angle (degrees, only for compressible flows) */
   addDoubleOption("SIDESLIP_ANGLE", AoS, 0.0);
@@ -5084,8 +5084,8 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
 
     }
 
-    /*************************************************************************************************/
-    /*AKB: Add SA coefficients to output*/
+    /***************************************************************************/
+    // AKB: Add user-defined SA coefficients to screen output
     if (Kind_Solver == RANS || Kind_Solver == DISC_ADJ_RANS) {
         cout << "*************************************************************************" << endl;
         cout << "Spalart Allmaras Closure Coefficients" << endl;
@@ -5100,7 +5100,7 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
         cout << "ct4 = " << '\t' << ct4_usrdef << endl;
         cout << "*************************************************************************" << endl;
     }
-    /*************************************************************************************************/
+    /***************************************************************************/
 
     if ((Kind_Regime == COMPRESSIBLE) && (Kind_Solver != FEM_ELASTICITY)) {
       cout << "Mach number: " << Mach <<"."<< endl;
@@ -9243,4 +9243,3 @@ void CConfig::SetMultizone(CConfig *driver_config, CConfig **config_container){
   Multizone_Residual = true;
 
 }
-
