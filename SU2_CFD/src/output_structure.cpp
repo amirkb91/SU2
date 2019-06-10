@@ -5113,9 +5113,6 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
           Total_Sens_sig       = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_sig();
           /***************************************************************************/          
 
-          /* AKB: Assign SA sensitivities */
-          Total_Sens_cb1       = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_cb1();          
-
           /*--- Adjoint flow residuals ---*/
           
           for (iVar = 0; iVar < nVar_AdjFlow; iVar++) {
