@@ -367,12 +367,26 @@ void CDiscAdjSolver::RegisterVariables(CGeometry *geometry, CConfig *config, boo
    // AKB: Register the SA coefficients inside AD
   if((config->GetKind_Regime() == COMPRESSIBLE) && (KindDirect_Solver == RUNTIME_FLOW_SYS && !config->GetBoolTurbomachinery())) {
 
-    cb1_adj = config->GetSA_cb1();
-    sig_adj = config->GetSA_sig();
-    
+    SA_adj[0] = config->GetSA_cb1();
+    SA_adj[1] = config->GetSA_sig();
+    SA_adj[2] = config->GetSA_cb2();
+    SA_adj[3] = config->GetSA_kar();
+    SA_adj[4] = config->GetSA_cw2();
+    SA_adj[5] = config->GetSA_cw3();
+    SA_adj[6] = config->GetSA_cv1();
+    SA_adj[7] = config->GetSA_ct3();
+    SA_adj[8] = config->GetSA_ct4();
+
     if (!reset) {
-      AD::RegisterInput(cb1_adj);
-      AD::RegisterInput(sig_adj);
+      AD::RegisterInput(SA_adj[0]);
+      AD::RegisterInput(SA_adj[1]);
+      AD::RegisterInput(SA_adj[2]);
+      AD::RegisterInput(SA_adj[3]);
+      AD::RegisterInput(SA_adj[4]);
+      AD::RegisterInput(SA_adj[5]);
+      AD::RegisterInput(SA_adj[6]);
+      AD::RegisterInput(SA_adj[7]);
+      AD::RegisterInput(SA_adj[8]);
     }
   }
   /***************************************************************************/  
@@ -616,16 +630,44 @@ void CDiscAdjSolver::ExtractAdjoint_Variables(CGeometry *geometry, CConfig *conf
 
     su2double Local_Sens_cb1;
     su2double Local_Sens_sig;
-
-    Local_Sens_cb1  = SU2_TYPE::GetDerivative(cb1_adj);
-    Local_Sens_sig  = SU2_TYPE::GetDerivative(sig_adj);
+    su2double Local_Sens_cb2;
+    su2double Local_Sens_kar;
+    su2double Local_Sens_cw2;
+    su2double Local_Sens_cw3;
+    su2double Local_Sens_cv1;
+    su2double Local_Sens_ct3;
+    su2double Local_Sens_ct4;
+    
+    Local_Sens_cb1  = SU2_TYPE::GetDerivative(SA_adj[0]);
+    Local_Sens_sig  = SU2_TYPE::GetDerivative(SA_adj[1]);
+    Local_Sens_cb2  = SU2_TYPE::GetDerivative(SA_adj[2]);
+    Local_Sens_kar  = SU2_TYPE::GetDerivative(SA_adj[3]);
+    Local_Sens_cw2  = SU2_TYPE::GetDerivative(SA_adj[4]);
+    Local_Sens_cw3  = SU2_TYPE::GetDerivative(SA_adj[5]);
+    Local_Sens_cv1  = SU2_TYPE::GetDerivative(SA_adj[6]);
+    Local_Sens_ct3  = SU2_TYPE::GetDerivative(SA_adj[7]);
+    Local_Sens_ct4  = SU2_TYPE::GetDerivative(SA_adj[8]);
 
 #ifdef HAVE_MPI
     SU2_MPI::Allreduce(&Local_Sens_cb1,  &Total_Sens_cb1,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
     SU2_MPI::Allreduce(&Local_Sens_sig,  &Total_Sens_sig,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_cb2,  &Total_Sens_cb2,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_kar,  &Total_Sens_kar,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_cw2,  &Total_Sens_cw2,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_cw3,  &Total_Sens_cw3,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_cv1,  &Total_Sens_cv1,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_ct3,  &Total_Sens_ct3,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    SU2_MPI::Allreduce(&Local_Sens_ct4,  &Total_Sens_ct4,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 #else
     Total_Sens_cb1  = Local_Sens_cb1;
     Total_Sens_sig  = Local_Sens_sig;
+    Total_Sens_cb2  = Local_Sens_cb2;
+    Total_Sens_kar  = Local_Sens_kar;
+    Total_Sens_cw2  = Local_Sens_cw2;
+    Total_Sens_cw3  = Local_Sens_cw3;
+    Total_Sens_cv1  = Local_Sens_cv1;
+    Total_Sens_ct3  = Local_Sens_ct3;
+    Total_Sens_ct4  = Local_Sens_ct4;
 #endif
   }
   /***************************************************************************/  

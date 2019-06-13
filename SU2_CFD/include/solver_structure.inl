@@ -2530,15 +2530,29 @@ inline su2double CDiscAdjFEASolver::GetVal_DVFEA(unsigned short iVal) { return D
 // Virtuals
 inline su2double CSolver::GetTotal_Sens_cb1(void) { return 0; }
 inline su2double CSolver::GetTotal_Sens_sig(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_cb2(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_kar(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_cw2(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_cw3(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_cv1(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_ct3(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_ct4(void) { return 0; }
 // Child functions
 inline su2double CDiscAdjSolver::GetTotal_Sens_cb1(void) { return Total_Sens_cb1; }
 inline su2double CDiscAdjSolver::GetTotal_Sens_sig(void) { return Total_Sens_sig; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_cb2(void) { return Total_Sens_cb2; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_kar(void) { return Total_Sens_kar; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_cw2(void) { return Total_Sens_cw2; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_cw3(void) { return Total_Sens_cw3; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_cv1(void) { return Total_Sens_cv1; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_ct3(void) { return Total_Sens_ct3; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_ct4(void) { return Total_Sens_ct4; }
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 // Functions for returning SA coefficients from solver
 // Virtuals
-inline su2double CSolver::GetSA_cb1_solver(void) {return 0; }
+inline su2double *CSolver::GetSA_all_solver(void) {return 0; }
 inline su2double CSolver::GetSA_sig_solver(void) {return 0; }
 // Child functions
-inline su2double CDiscAdjSolver::GetSA_cb1_solver(void) { return cb1_adj; }
-inline su2double CDiscAdjSolver::GetSA_sig_solver(void) { return sig_adj; }
+inline su2double *CDiscAdjSolver::GetSA_all_solver(void) { return SA_adj; }
+inline su2double CDiscAdjSolver::GetSA_sig_solver(void) { return SA_adj[1]; }
 /******************************************************************************/

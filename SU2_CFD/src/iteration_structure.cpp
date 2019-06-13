@@ -2490,7 +2490,7 @@ void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeo
   }
   
   /***************************************************************************/
-  /* AKB: Update numerics container with SA coefficients from solver (where AD is registered) 
+  /* AKB: Update numerics container with SA coefficients from solver (where AD is registered)
      from driver_structure.cpp::
      solver_container[val_iInst][iMGlevel][ADJFLOW_SOL] = new CDiscAdjSolver()
      numerics_container[val_iInst][iMGlevel][TURB_SOL][VISC_TERM] = new CAvgGrad_TurbSA()
@@ -2498,8 +2498,8 @@ void CDiscAdjFluidIteration::SetDependencies(CSolver *****solver_container, CGeo
      numerics_container[val_iInst][iMGlevel][TURB_SOL][VISC_BOUND_TERM] = new CAvgGrad_TurbSA {{THIS ONE DOESN'T SEEM TO AFFECT THE GRADIENT wrt Sigma}}
    */
   numerics_container[iZone][iInst][MESH_0][TURB_SOL][VISC_TERM]->SetSA_num_sig(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_sig_solver());
-  numerics_container[iZone][iInst][MESH_0][TURB_SOL][SOURCE_FIRST_TERM]->SetSA_num_cb1(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_cb1_solver());
-  // numerics_container[iZone][iInst][MESH_0][TURB_SOL][VISC_BOUND_TERM]->SetSA_num_sig(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_sig_solver());
+  numerics_container[iZone][iInst][MESH_0][TURB_SOL][SOURCE_FIRST_TERM]->SetSA_num_all(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_all_solver());
+  numerics_container[iZone][iInst][MESH_0][TURB_SOL][VISC_BOUND_TERM]->SetSA_num_sig(solver_container[iZone][iInst][MESH_0][ADJFLOW_SOL]->GetSA_sig_solver());
   /***************************************************************************/
 }
 

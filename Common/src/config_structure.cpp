@@ -5089,15 +5089,15 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
     if (Kind_Solver == RANS || Kind_Solver == DISC_ADJ_RANS) {
         cout << "*************************************************************************" << endl;
         cout << "Spalart Allmaras Closure Coefficients" << endl;
-        cout << "cb1 = " << '\t' << cb1_usrdef << endl;
-        cout << "sig = " << '\t' << sig_usrdef << endl;
-        cout << "cb2 = " << '\t' << cb2_usrdef << endl;
-        cout << "kar = " << '\t' << kar_usrdef << endl;
-        cout << "cw2 = " << '\t' << cw2_usrdef << endl;
-        cout << "cw3 = " << '\t' << cw3_usrdef << endl;
-        cout << "cv1 = " << '\t' << cv1_usrdef << endl;
-        cout << "ct3 = " << '\t' << ct3_usrdef << endl;
-        cout << "ct4 = " << '\t' << ct4_usrdef << endl;
+        cout << "cb1 =   " << cb1_usrdef << endl;
+        cout << "sig =   " << sig_usrdef << endl;
+        cout << "cb2 =   " << cb2_usrdef << endl;
+        cout << "kar =   " << kar_usrdef << endl;
+        cout << "cw2 =   " << cw2_usrdef << endl;
+        cout << "cw3 =   " << cw3_usrdef << endl;
+        cout << "cv1 =   " << cv1_usrdef << endl;
+        cout << "ct3 =   " << ct3_usrdef << endl;
+        cout << "ct4 =   " << ct4_usrdef << endl;
         cout << "*************************************************************************" << endl;
     }
     /***************************************************************************/

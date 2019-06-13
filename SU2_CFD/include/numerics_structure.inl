@@ -595,9 +595,19 @@ inline void CNumerics::SetUsing_UQ(bool val_using_uq) { using_uq = val_using_uq;
 /***************************************************************************/
 // AKB: Functions for setting the SA coefficients inside numerics classes
 // Virtuals
-inline void CNumerics::SetSA_num_cb1(su2double val_cb1) { }
+inline void CNumerics::SetSA_num_all(su2double *val_all) { }
 inline void CNumerics::SetSA_num_sig(su2double val_sig) { }
 // Child Functions
-inline void CSourcePieceWise_TurbSA::SetSA_num_cb1(su2double val_cb1) { cb1 = val_cb1;}
+inline void CSourcePieceWise_TurbSA::SetSA_num_all(su2double *val_all) { 
+      cb1 = val_all[0];
+    sigma = val_all[1];
+      cb2 = val_all[2];
+      kar = val_all[3];
+      cw2 = val_all[4];
+      cw3 = val_all[5];
+      cv1 = val_all[6];
+      ct3 = val_all[7];
+      ct4 = val_all[8];
+}
 inline void CAvgGrad_TurbSA::SetSA_num_sig(su2double val_sig) { sigma = val_sig;}
 /***************************************************************************/

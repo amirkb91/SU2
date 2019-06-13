@@ -315,14 +315,21 @@ CSourcePieceWise_TurbSA::CSourcePieceWise_TurbSA(unsigned short val_nDim, unsign
   transition = (config->GetKind_Trans_Model() == BC);
   
   /*--- Spalart-Allmaras closure constants ---*/
-  /* AKB: Modify closure coefficients */
+  
+  /* AKB: Modify closure coefficients.
+  Secondary parameters which are derived from main SA coeffs cannot be calculated here in the constructor.
+  This is because the constructor is only called once inside driver_structure.cpp when the containers are set, 
+  and the ComputeResidual method below is where the calculations happen.
+  If the calculations are left here, AD will not give the correct derivative since it won't keep track of the variables correctly,
+  as the constructor is not called again during the flowfield calculations.  */  
+  
   cb1   = config->GetSA_cb1();
   sigma = config->GetSA_sig();
   cb2   = config->GetSA_cb2();
-  k2    = pow(config->GetSA_kar(), 2.0);
+  kar   = config->GetSA_kar();  
   cw2   = config->GetSA_cw2();
-  cw3_6 = pow(config->GetSA_cw3(), 6.0);
-  cv1_3 = pow(config->GetSA_cv1(), 3.0);
+  cw3   = config->GetSA_cw3();
+  cv1   = config->GetSA_cv1();
   ct3   = config->GetSA_ct3();
   ct4   = config->GetSA_ct4();
 
@@ -335,9 +342,8 @@ CSourcePieceWise_TurbSA::CSourcePieceWise_TurbSA(unsigned short val_nDim, unsign
   // cw3_6 = pow(2.0, 6.0);
   // sigma = 2./3.;
   // cb2   = 0.622;
-  
-  cb2_sigma = cb2/sigma;
-  cw1 = cb1/k2+(1.0+cb2)/sigma;
+  // cb2_sigma = cb2/sigma;
+  // cw1 = cb1/k2+(1.0+cb2)/sigma;
   
 }
 
@@ -356,6 +362,23 @@ void CSourcePieceWise_TurbSA::ComputeResidual(su2double *val_residual, su2double
 //  BC Transition Model variables
   su2double vmag, rey, re_theta, re_theta_t, re_v;
   su2double tu , nu_cr, nu_t, nu_BC, chi_1, chi_2, term1, term2, term_exponential;
+
+/***************************************************************************/
+// AKB: Carry out the SA variable operations which were originally done in the constructor.
+  k2 = pow(kar, 2.0);
+  cw3_6 = pow(cw3, 6.0);
+  cv1_3 = pow(cv1, 3.0);
+  cb2_sigma = cb2/sigma;
+  cw1 = cb1/k2+(1.0+cb2)/sigma;
+/***************************************************************************/ 
+/* AKB: The SA production and destruction terms have been modified in the original release of SU2. 
+The trip terms have not been included inside the productions and destruction.
+Since ct3 and ct4 are only present in ft2, AD will give a gradient
+of 0 for these two terms unless the original SA version is used.
+I think in SU2 they are not used because the BL is considered fully turbulent, and therefore no trip from laminar to turbulent 
+is needed.
+All marked with AKB below. */
+/***************************************************************************/ 
 
   if (incompressible) {
     Density_i = V_i[nDim+2];
@@ -411,8 +434,9 @@ void CSourcePieceWise_TurbSA::ComputeResidual(su2double *val_residual, su2double
     Shat = max(Shat, 1.0e-10);
     inv_Shat = 1.0/Shat;
 
+    
 //    Original SA model
-//    Production = cb1*(1.0-ft2)*Shat*TurbVar_i[0]*Volume;
+   // Production = cb1*(1.0-ft2)*Shat*TurbVar_i[0]*Volume; //AKB
     
     if (transition) {
 
@@ -437,7 +461,7 @@ void CSourcePieceWise_TurbSA::ComputeResidual(su2double *val_residual, su2double
       Production = gamma_BC*cb1*Shat*TurbVar_i[0]*Volume;
     }
     else {
-      Production = cb1*Shat*TurbVar_i[0]*Volume;
+      Production = cb1*Shat*TurbVar_i[0]*Volume; //AKB
     }
     
     /*--- Destruction term ---*/
@@ -449,9 +473,9 @@ void CSourcePieceWise_TurbSA::ComputeResidual(su2double *val_residual, su2double
     fw = g*glim;
     
 //    Original SA model
-//    Destruction = (cw1*fw-cb1*ft2/k2)*TurbVar_i[0]*TurbVar_i[0]/dist_i_2*Volume;
+   // Destruction = (cw1*fw-cb1*ft2/k2)*TurbVar_i[0]*TurbVar_i[0]/dist_i_2*Volume; //AKB
     
-    Destruction = cw1*fw*TurbVar_i[0]*TurbVar_i[0]/dist_i_2*Volume;
+    Destruction = cw1*fw*TurbVar_i[0]*TurbVar_i[0]/dist_i_2*Volume; //AKB
 
     /*--- Diffusion term ---*/
     
