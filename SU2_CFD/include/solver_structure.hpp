@@ -4371,8 +4371,15 @@ public:
   // AKB: Functions for returning sensitivity values from solver
   virtual su2double GetTotal_Sens_cb1(void);
   virtual su2double GetTotal_Sens_sig(void);
+  virtual su2double GetTotal_Sens_cb2(void);
+  virtual su2double GetTotal_Sens_kar(void);
+  virtual su2double GetTotal_Sens_cw2(void);
+  virtual su2double GetTotal_Sens_cw3(void);
+  virtual su2double GetTotal_Sens_cv1(void);
+  virtual su2double GetTotal_Sens_ct3(void);
+  virtual su2double GetTotal_Sens_ct4(void);
   // Functions for returning SA coefficients from solver
-  virtual su2double GetSA_cb1_solver(void);
+  virtual su2double *GetSA_all_solver(void);
   virtual su2double GetSA_sig_solver(void);  
   /***************************************************************************/
 };
@@ -12681,9 +12688,15 @@ private:
   // AKB: Declare coefficient sensitivity values
   su2double Total_Sens_cb1;
   su2double Total_Sens_sig;
-  // Declare closure coefficients for AD register
-  su2double cb1_adj;
-  su2double sig_adj;
+  su2double Total_Sens_cb2;
+  su2double Total_Sens_kar;
+  su2double Total_Sens_cw2;
+  su2double Total_Sens_cw3;
+  su2double Total_Sens_cv1;
+  su2double Total_Sens_ct3;
+  su2double Total_Sens_ct4;
+  // Declare closure coefficients for AD register as array which will include all 9 coefficients
+  su2double SA_adj[9];
   /***************************************************************************/  
 
 public:
@@ -12943,8 +12956,15 @@ public:
   // AKB: Functions for returning sensitivity values from solver
   su2double GetTotal_Sens_cb1(void);
   su2double GetTotal_Sens_sig(void);
+  su2double GetTotal_Sens_cb2(void);
+  su2double GetTotal_Sens_kar(void);
+  su2double GetTotal_Sens_cw2(void);
+  su2double GetTotal_Sens_cw3(void);
+  su2double GetTotal_Sens_cv1(void);
+  su2double GetTotal_Sens_ct3(void);
+  su2double GetTotal_Sens_ct4(void);
   // Functions for returning SA coefficients from solver
-  su2double GetSA_cb1_solver(void);
+  su2double *GetSA_all_solver(void);
   su2double GetSA_sig_solver(void);
   /***************************************************************************/  
 };

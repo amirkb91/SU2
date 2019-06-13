@@ -1496,7 +1496,7 @@ public:
   
   /***************************************************************************/
   // AKB: Functions for setting the SA coefficients inside numerics classes
-  virtual void SetSA_num_cb1(su2double val_cb1);
+  virtual void SetSA_num_all(su2double *val_all);
   virtual void SetSA_num_sig(su2double val_sig);
   /***************************************************************************/
 };
@@ -4528,6 +4528,10 @@ private:
   su2double gamma_BC;
   su2double intermittency;
   su2double Production, Destruction, CrossProduction;
+  // AKB: Add SA coefficients in their nominal form without powers for AD (see CSourcePieceWise_TurbSA constructor inside numerics_direct_turbulent)
+  su2double kar;
+  su2double cw3;
+  su2double cv1;
   
 public:
   
@@ -4600,7 +4604,7 @@ public:
   
  /***************************************************************************/ 
  // AKB: Functions for setting the SA coefficients inside numerics classes
- void SetSA_num_cb1(su2double val_cb1); 
+ void SetSA_num_all(su2double *val_all);
  /***************************************************************************/
 };
 
