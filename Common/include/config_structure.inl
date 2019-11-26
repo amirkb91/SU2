@@ -2091,6 +2091,6 @@ inline su2double CConfig::GetSA_ct3(void) { return ct3_usrdef; }
 inline su2double CConfig::GetSA_ct4(void) { return ct4_usrdef; }
 
 // AKB: Functions for returning XY of velocity vector objective function from config
-inline su2double CConfig::GetVelObj_x(void) { return x_vel_obj; }
-inline su2double CConfig::GetVelObj_y(void) { return y_vel_obj; }
+inline su2double CConfig::GetVelObj_x(void) { return x_usrdef_objfunc; }
+inline su2double CConfig::GetVelObj_y(void) { return y_usrdef_objfunc; }
 /***************************************************************************/

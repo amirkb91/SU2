@@ -933,8 +933,8 @@ void CConfig::SetConfig_Options(unsigned short val_iZone, unsigned short val_nZo
           velocity vector to be taken as objective function in the adjoint simulation
           Add default values. Note name of variables which should be used in 
           config file */
-  addDoubleOption("X_VEL_OBJ", x_vel_obj, 0.0);
-  addDoubleOption("Y_VEL_OBJ", y_vel_obj, 0.0);
+  addDoubleOption("X_VEL_OBJ", x_usrdef_objfunc, 0.0);
+  addDoubleOption("Y_VEL_OBJ", y_usrdef_objfunc, 0.0);
   /***************************************************************************/
 
   /* DESCRIPTION: Side-slip angle (degrees, only for compressible flows) */
@@ -5108,9 +5108,9 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
         cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
         
         // AKB: Add XY of velocity vector location to screen output
-        cout << "Location of Velocity Vector which is Used as Adjoint Objective Function" << endl;
-        cout << "x_vel_obj =    " << x_vel_obj << endl;
-        cout << "y_vel_obj =    " << y_vel_obj << endl;
+        cout << "Location of User Defined Velocity Vector for Adjoint Objective Function" << endl;
+        cout << "x_usrdef_objfunc =    " << x_usrdef_objfunc << endl;
+        cout << "y_usrdef_objfunc =    " << y_usrdef_objfunc << endl;
         cout << "*************************************************************************" << endl;
     }
     

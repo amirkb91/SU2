@@ -535,3 +535,6 @@ inline su2double CPhysicalGeometry::GetMaxAngularCoord(unsigned short val_marker
 inline su2double CPhysicalGeometry::GetMinRelAngularCoord(unsigned short val_marker, unsigned short val_span){return MinRelAngularCoord[val_marker][val_span];}
 
 inline void CGeometry::Check_Periodicity(CConfig* config) {}
+
+// AKB: Routine to return the nearest node to the user defined velocity vector
+inline unsigned long CGeometry::Get_NearestNode(void) { return nearest_node; }

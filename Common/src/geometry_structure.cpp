@@ -2206,6 +2206,35 @@ void CGeometry::SetElemVolume(CConfig *config)
   }
 }
 
+// AKB: Define the function for finding the nearest node
+void CGeometry::FindNearestNode(CConfig *config)
+{
+    /* Find the nearest mesh node to the user-defined position of the velocity vector to be used
+    as the objective function */
+    
+    // Get the user-defined coordinates of the velocity vector from config
+    su2double x_cord_vel = config->GetVelObj_x();
+    su2double y_cord_vel = config->GetVelObj_y();
+    
+    // Other variables needed within the local scope of this routine
+    unsigned long n_point = GetnPoint(), iPoint;
+    su2double dis_to_node, min_dist = 1.0E6;
+    su2double x_cord_node, y_cord_node;
+    
+    // Find the nearest point by looping through all mesh points
+    for (iPoint = 0; iPoint < n_point; iPoint++){
+        x_cord_node = node[iPoint]->GetCoord(0);
+        y_cord_node = node[iPoint]->GetCoord(1);
+        
+        dis_to_node = sqrt(pow((x_cord_vel - x_cord_node),2.0) + pow((y_cord_vel - y_cord_node),2.0));
+        
+        if (dis_to_node < min_dist) {
+            nearest_node = iPoint;
+            min_dist = dis_to_node;
+        }
+    }
+}
+
 CPhysicalGeometry::CPhysicalGeometry() : CGeometry() {
   
   size = SU2_MPI::GetSize();
