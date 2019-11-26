@@ -81,6 +81,10 @@ private:
   su2double cv1_usrdef;
   su2double ct3_usrdef;
   su2double ct4_usrdef;
+  
+  // AKB: Declare user defined coordinates of velocity vector location for adjoint objective function
+  su2double x_vel_obj;
+  su2double y_vel_obj; 
   /***************************************************************************/
 
   SU2_MPI::Comm SU2_Communicator; /*!< \brief MPI communicator of SU2.*/
@@ -2667,6 +2671,10 @@ public:
   su2double GetSA_cv1(void);
   su2double GetSA_ct3(void);
   su2double GetSA_ct4(void);
+  
+  // AKB: Declare the functions for returning XY of velocity vector location for objective function
+  su2double GetVelObj_x(void);
+  su2double GetVelObj_y(void);
 /***************************************************************************/
 
   /*!

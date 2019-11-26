@@ -928,6 +928,13 @@ void CConfig::SetConfig_Options(unsigned short val_iZone, unsigned short val_nZo
   addDoubleOption("SA_CV1", cv1_usrdef, 7.1);
   addDoubleOption("SA_CT3", ct3_usrdef, 1.2);
   addDoubleOption("SA_CT4", ct4_usrdef, 0.5);
+  
+  /* AKB: Add config file entries for the XY coordinates of the location of the 
+          velocity vector to be taken as objective function in the adjoint simulation
+          Add default values. Note name of variables which should be used in 
+          config file */
+  addDoubleOption("X_VEL_OBJ", x_vel_obj, 0.0);
+  addDoubleOption("Y_VEL_OBJ", y_vel_obj, 0.0);
   /***************************************************************************/
 
   /* DESCRIPTION: Side-slip angle (degrees, only for compressible flows) */
@@ -5098,8 +5105,15 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
         cout << "cv1 =   " << cv1_usrdef << endl;
         cout << "ct3 =   " << ct3_usrdef << endl;
         cout << "ct4 =   " << ct4_usrdef << endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+        
+        // AKB: Add XY of velocity vector location to screen output
+        cout << "Location of Velocity Vector which is Used as Adjoint Objective Function" << endl;
+        cout << "x_vel_obj =    " << x_vel_obj << endl;
+        cout << "y_vel_obj =    " << y_vel_obj << endl;
         cout << "*************************************************************************" << endl;
     }
+    
     /***************************************************************************/
 
     if ((Kind_Regime == COMPRESSIBLE) && (Kind_Solver != FEM_ELASTICITY)) {
