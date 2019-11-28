@@ -5108,9 +5108,9 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
         cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
         
         // AKB: Add XY of velocity vector location to screen output
-        cout << "Location of User Defined Velocity Vector for Adjoint Objective Function" << endl;
-        cout << "x_usrdef_objfunc =    " << x_usrdef_objfunc << endl;
-        cout << "y_usrdef_objfunc =    " << y_usrdef_objfunc << endl;
+        cout << "User-Specified Location of Velocity Vector for Adjoint Objective Function" << endl;
+        cout << "X =   " << x_usrdef_objfunc << endl;
+        cout << "Y =   " << y_usrdef_objfunc << endl;
         cout << "*************************************************************************" << endl;
     }
     

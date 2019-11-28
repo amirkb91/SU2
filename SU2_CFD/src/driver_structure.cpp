@@ -193,8 +193,17 @@ CDriver::CDriver(char* confFile,
           config_container[iZone]->GetKind_ObjFunc() == CUSTOM_OBJFUNC) {
         if (rank == MASTER_NODE) cout << "Finding Nearest Node to User-Specified Location of Velocity Vector" << endl;      
         geometry_container[iZone][iInst][MESH_0]->FindNearestNode(config_container[iZone]);
-        if (rank == MASTER_NODE) cout << "Nearest Node is:   " << geometry_container[iZone][iInst][MESH_0]->Get_NearestNode() << endl;     
-          }        
+        if (rank == MASTER_NODE) {
+            cout << "*************************************************************************" << endl;
+            cout << "Nearest Mesh Node to User-Specified Location of Velocity Vector" << endl;
+            cout << "For Adjoint Objective Function" << endl;
+            cout << "Node Number:   " << geometry_container[iZone][iInst][MESH_0]->Get_NearestNode() << endl;
+            cout << setprecision(16);
+            cout << "X:   " << geometry_container[iZone][iInst][MESH_0]->node[geometry_container[iZone][iInst][MESH_0]->Get_NearestNode()]->GetCoord(0) << endl;
+            cout << "Y:   " << geometry_container[iZone][iInst][MESH_0]->node[geometry_container[iZone][iInst][MESH_0]->Get_NearestNode()]->GetCoord(1) << endl;     
+            cout << "*************************************************************************" << endl;
+        }
+      }        
 
     }
 
