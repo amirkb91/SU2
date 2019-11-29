@@ -830,6 +830,10 @@ public:
    */
   virtual void Evaluate_ObjFunc(CConfig *config);
   
+  /* AKB: Overload the function above to take two arguments so we can access geometry subroutines
+          for the custom objective function */
+  virtual void Evaluate_ObjFunc(CConfig *config, CGeometry *geometry);
+  
   /*!
    * \brief A virtual member.
    * \param[in] geometry - Geometrical definition of the problem.
@@ -5127,7 +5131,10 @@ public:
    * \brief Compute weighted-sum "combo" objective output
    * \param[in] config - Definition of the particular problem.
    */
-  void Evaluate_ObjFunc(CConfig *config);
+   /* AKB: Modify objective function to take two arguments so we can access geometry subroutines
+           for the custom objective function */
+  // void Evaluate_ObjFunc(CConfig *config);
+  void Evaluate_ObjFunc(CConfig *config, CGeometry *geometry);
   
   /*!
    * \author: G.Gori, S.Vitale, M.Pini, A.Guardone, P.Colonna
@@ -8681,7 +8688,10 @@ public:
    * \brief Compute weighted-sum "combo" objective output
    * \param[in] config - Definition of the particular problem.
    */
-  void Evaluate_ObjFunc(CConfig *config);
+   /* AKB: Modify objective function to take two arguments so we can access geometry subroutines
+           for the custom objective function */
+  // void Evaluate_ObjFunc(CConfig *config);
+  void Evaluate_ObjFunc(CConfig *config, CGeometry *geometry);
   
   /*!
    * \brief Impose a constant heat-flux condition at the wall.

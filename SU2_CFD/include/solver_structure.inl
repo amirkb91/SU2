@@ -686,6 +686,10 @@ inline void CSolver::Set_Heatflux_Areas(CGeometry *geometry, CConfig *config) { 
 
 inline void CSolver::Evaluate_ObjFunc(CConfig *config) {};
 
+  /* AKB: Overload the function above to take two arguments so we can access geometry subroutines
+          for the custom objective function */
+inline void CSolver::Evaluate_ObjFunc(CConfig *config, CGeometry *geometry) {};          
+
 inline void CSolver::Solve_System(CGeometry *geometry, CSolver **solver_container, CConfig *config) { }
 
 inline void CSolver::BC_Euler_Wall(CGeometry *geometry, CSolver **solver_container, CNumerics *numerics, CConfig *config, 

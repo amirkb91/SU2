@@ -4752,7 +4752,11 @@ void CDiscAdjFluidDriver::SetObjFunction(){
   /*--- Surface based obj. function ---*/
 
   for (iZone = 0; iZone < nZone; iZone++){
-    solver_container[iZone][INST_0][MESH_0][FLOW_SOL]->Evaluate_ObjFunc(config_container[iZone]);
+    /* AKB: Update the Evaluate_ObjFunc call so it takes the geometry container as an input too.
+            This is so that we can give the information about the nearest mesh node to user specified XY
+            to the objective function calculation routine. */
+    // solver_container[iZone][INST_0][MESH_0][FLOW_SOL]->Evaluate_ObjFunc(config_container[iZone]);
+    solver_container[iZone][INST_0][MESH_0][FLOW_SOL]->Evaluate_ObjFunc(config_container[iZone], geometry_container[iZone][INST_0][MESH_0]);
     ObjFunc += solver_container[iZone][INST_0][MESH_0][FLOW_SOL]->GetTotal_ComboObj();
     if (heat){
       if (config_container[iZone]->GetKind_ObjFunc() == TOTAL_HEATFLUX) {

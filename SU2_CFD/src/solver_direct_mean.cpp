@@ -8773,10 +8773,13 @@ void CEulerSolver::UpdateCustomBoundaryConditions(CGeometry **geometry_container
   }
 }
 
-void CEulerSolver::Evaluate_ObjFunc(CConfig *config) {
+/* AKB: Modify the routine to take geometry container as input as well so we can use it in the custom objective function */
+// void CEulerSolver::Evaluate_ObjFunc(CConfig *config) {
+void CEulerSolver::Evaluate_ObjFunc(CConfig *config, CGeometry *geometry) {    
   
   unsigned short iMarker_Monitoring, Kind_ObjFunc;
   su2double Weight_ObjFunc;
+  su2double vel_x, vel_y, vel_mag, vel_ang; // AKB: Added variables for custom objective function
   
   Total_ComboObj = 0.0;
 
@@ -8892,6 +8895,22 @@ void CEulerSolver::Evaluate_ObjFunc(CConfig *config) {
       Total_ComboObj+=Weight_ObjFunc*config->GetSurface_Temperature(0);
       break;
     case CUSTOM_OBJFUNC:
+      /* AKB: Add the custom objective function here.
+      User specifies an XY coordinate in the config file. The closest mesh node to that coordinate
+      is found so that we can extract the velocity vector at that mesh node (where SU2 stores the 
+      solution). The objective function whose gradient with respect to the SA coefficients is desired
+      is the velocity vector at the mesh node. However since the velocity vector has two components and
+      we want a single unique objective function, we take the function to be the product of the magnitude 
+      and the angle of that vector in polar coordinates. */
+      
+      vel_x = node[geometry->Get_NearestNode()]->GetVelocity(0);
+      vel_y = node[geometry->Get_NearestNode()]->GetVelocity(1);
+      
+      vel_mag = sqrt(pow(vel_x, 2.0) + pow(vel_y, 2.0));
+      vel_ang = atan2(vel_y, vel_x);
+      
+      Total_Custom_ObjFunc = vel_mag * vel_ang;
+      
       Total_ComboObj+=Weight_ObjFunc*Total_Custom_ObjFunc;
       break;
     default:
@@ -16721,14 +16740,18 @@ void CNSSolver::Buffet_Monitoring(CGeometry *geometry, CConfig *config) {
         
 }
 
-void CNSSolver::Evaluate_ObjFunc(CConfig *config) {
+/* AKB: Modify the routine to take geometry container as input as well so we can use it in the custom objective function */
+// void CNSSolver::Evaluate_ObjFunc(CConfig *config) {
+void CNSSolver::Evaluate_ObjFunc(CConfig *config, CGeometry *geometry) {    
     
     unsigned short iMarker_Monitoring, Kind_ObjFunc;
     su2double Weight_ObjFunc;
         
     /*--- Evaluate objective functions common to Euler and NS solvers ---*/
 
-    CEulerSolver::Evaluate_ObjFunc(config);
+/* AKB: Modify the routine to take geometry container as input as well so we can use it in the custom objective function */
+    // CEulerSolver::Evaluate_ObjFunc(config);
+    CEulerSolver::Evaluate_ObjFunc(config, geometry);    
 
     /*--- Evaluate objective functions specific to NS solver ---*/
     
@@ -17848,4 +17871,3 @@ void CNSSolver::SetTauWall_WF(CGeometry *geometry, CSolver **solver_container, C
   }
   
 }
-
