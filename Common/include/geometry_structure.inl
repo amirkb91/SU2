@@ -536,5 +536,7 @@ inline su2double CPhysicalGeometry::GetMinRelAngularCoord(unsigned short val_mar
 
 inline void CGeometry::Check_Periodicity(CConfig* config) {}
 
-// AKB: Routine to return the nearest node to the user defined velocity vector
-inline unsigned long CGeometry::Get_NearestNode(void) { return nearest_node; }
+// AKB: Routines to return the nearest node to the user defined velocity vector
+inline unsigned long CGeometry::GetNearestNode_num(void) { return nearestnode_num; }
+inline su2double CGeometry::GetNearestNode_dis(void) { return nearestnode_dis; }
+inline int CGeometry::GetNearestNode_rnk(void) { return nearestnode_rnk; }

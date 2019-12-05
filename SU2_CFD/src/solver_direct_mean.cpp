@@ -8903,8 +8903,8 @@ void CEulerSolver::Evaluate_ObjFunc(CConfig *config, CGeometry *geometry) {
       we want a single unique objective function, we take the function to be the product of the magnitude 
       and the angle of that vector in polar coordinates. */
       
-      vel_x = node[geometry->Get_NearestNode()]->GetVelocity(0);
-      vel_y = node[geometry->Get_NearestNode()]->GetVelocity(1);
+      vel_x = node[geometry->GetNearestNode_num()]->GetVelocity(0);
+      vel_y = node[geometry->GetNearestNode_num()]->GetVelocity(1);
       
       vel_mag = sqrt(pow(vel_x, 2.0) + pow(vel_y, 2.0));
       vel_ang = atan2(vel_y, vel_x);

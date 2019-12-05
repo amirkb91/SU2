@@ -370,8 +370,11 @@ public:
   idx_t * xadj;
 #endif
 #endif
-   // AKB: declare variable for mesh node nearest to user defined position of velocity vector objective function
-   unsigned long nearest_node;
+   /* AKB: declare variables for mesh node nearest to user-defined position of velocity vector objective function 
+      (node number, distance to user-defined point, and MPI rank on which the node is found) */
+   unsigned long nearestnode_num;
+   su2double nearestnode_dis;
+   int nearestnode_rnk = 0; // MASTER_NODE by default
 	/*!
 	 * \brief Constructor of the class.
 	 */
@@ -1571,11 +1574,12 @@ public:
    */
   void SetElemVolume(CConfig *config);
   
-  // AKB: Find the nearest mesh node to the user-defined coordinates of the velocity vector objective function
+  /* AKB: Find the nearest mesh node to the user-defined coordinates of the velocity vector objective function */
   void FindNearestNode(CConfig *config);
-  // AKB: Get the nearest node after it is found
-  unsigned long Get_NearestNode(void);
-
+  // Get functions
+  unsigned long GetNearestNode_num(void);
+  su2double     GetNearestNode_dis(void);
+  int           GetNearestNode_rnk(void);
 };
 
 /*!
