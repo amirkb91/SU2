@@ -195,25 +195,21 @@ CDriver::CDriver(char* confFile,
               
         geometry_container[iZone][iInst][MESH_0]->FindNearestNode(config_container[iZone]);
         
-        // unsigned long mynearestnode = geometry_container[iZone][iInst][MESH_0]->GetNearestNode_num();
-        // su2double mynearestdist = geometry_container[iZone][iInst][MESH_0]->GetNearestNode_dis();
-        // int mynearestrank = geometry_container[iZone][iInst][MESH_0]->GetNearestNode_rnk();
-                
+        // Print to screen. Only the MPI rank with the nearestnode can access GetCoord             
         if (rank == geometry_container[iZone][iInst][MESH_0]->GetNearestNode_rnk()) {
             cout << "*************************************************************************" << endl;
-            cout << "Nearest Mesh Node to User-Specified Location of Velocity Vector" << endl;
-            cout << "For Adjoint Objective Function" << endl;
-            cout << "Node Number:   " << geometry_container[iZone][iInst][MESH_0]->GetNearestNode_num() 
+            cout << "Nearest Mesh Node to User-Specified Location of Velocity Vector for Adjoint Objfunc" << endl;
+            cout << "Node Number:  " << geometry_container[iZone][iInst][MESH_0]->GetNearestNode_num() 
             << "  on MPI rank:  " << geometry_container[iZone][iInst][MESH_0]->GetNearestNode_rnk() << endl;
             cout << setprecision(16);
-            cout << "Node Distance:     " << geometry_container[iZone][iInst][MESH_0]->GetNearestNode_dis() << endl;
-            cout << "X:   " << geometry_container[iZone][iInst][MESH_0]
+            cout << "Node Distance:    " << geometry_container[iZone][iInst][MESH_0]->GetNearestNode_dis() << endl;
+            cout << "X:  " << geometry_container[iZone][iInst][MESH_0]
             ->node[geometry_container[iZone][iInst][MESH_0]->GetNearestNode_num()]->GetCoord(0) << endl;
-            cout << "Y:   " << geometry_container[iZone][iInst][MESH_0]
+            cout << "Y:  " << geometry_container[iZone][iInst][MESH_0]
             ->node[geometry_container[iZone][iInst][MESH_0]->GetNearestNode_num()]->GetCoord(1) << endl;     
             cout << "*************************************************************************" << endl;
         }
-      }        
+      }
       /***************************************************************************/
     }
 

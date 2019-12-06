@@ -8779,7 +8779,11 @@ void CEulerSolver::Evaluate_ObjFunc(CConfig *config, CGeometry *geometry) {
   
   unsigned short iMarker_Monitoring, Kind_ObjFunc;
   su2double Weight_ObjFunc;
-  su2double vel_x, vel_y, vel_mag, vel_ang; // AKB: Added variables for custom objective function
+  // AKB: Added variables for custom objective function
+  su2double vel_x, vel_y, vel_mag, vel_ang;
+  #ifdef HAVE_MPI
+  su2double Local_Custom_Objfunc;
+  #endif 
   
   Total_ComboObj = 0.0;
 
@@ -8902,17 +8906,34 @@ void CEulerSolver::Evaluate_ObjFunc(CConfig *config, CGeometry *geometry) {
       is the velocity vector at the mesh node. However since the velocity vector has two components and
       we want a single unique objective function, we take the function to be the product of the magnitude 
       and the angle of that vector in polar coordinates. */
-      
-      vel_x = node[geometry->GetNearestNode_num()]->GetVelocity(0);
-      vel_y = node[geometry->GetNearestNode_num()]->GetVelocity(1);
-      
-      vel_mag = sqrt(pow(vel_x, 2.0) + pow(vel_y, 2.0));
-      vel_ang = atan2(vel_y, vel_x);
-      
-      Total_Custom_ObjFunc = vel_mag * vel_ang;
+      /* If MPI, calculate the objective function on the rank where the nearestnode is found. On all
+      other ranks set the objective function to zero, then Allreduce to make it consistent accross all ranks.
+      This is because only the rank with nearestnode can access GetVelocity of that mesh node */
+      #ifdef HAVE_MPI
+        if (rank == geometry->GetNearestNode_rnk()){
+            vel_x = node[geometry->GetNearestNode_num()]->GetVelocity(0);
+            vel_y = node[geometry->GetNearestNode_num()]->GetVelocity(1);       
+            vel_mag = sqrt(pow(vel_x, 2.0) + pow(vel_y, 2.0));
+            vel_ang = atan2(vel_y, vel_x);
+            
+            Local_Custom_Objfunc = vel_mag * vel_ang;
+        } 
+        else {
+            Local_Custom_Objfunc = 0.0;
+        }
+        SU2_MPI::Allreduce(&Local_Custom_Objfunc,  &Total_Custom_ObjFunc,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+      #else
+        vel_x = node[geometry->GetNearestNode_num()]->GetVelocity(0);
+        vel_y = node[geometry->GetNearestNode_num()]->GetVelocity(1);
+        vel_mag = sqrt(pow(vel_x, 2.0) + pow(vel_y, 2.0));
+        vel_ang = atan2(vel_y, vel_x);
+        
+        Total_Custom_ObjFunc = vel_mag * vel_ang;
+      #endif
       
       Total_ComboObj+=Weight_ObjFunc*Total_Custom_ObjFunc;
       break;
+      
     default:
       break;
   }

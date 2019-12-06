@@ -2245,10 +2245,14 @@ void CGeometry::FindNearestNode(CConfig *config)
     We therefore have to compare the distances to find which is smallest and make that 
     the consistent global nearestnode across all MPI ranks */
     #ifdef HAVE_MPI
-        // Send nearest node data to the master MPI rank
+        // Send nearest node data to the master MPI rank, and receive back the global minimum.
         if (rank != MASTER_NODE){
             SU2_MPI::Send(&nearestnode_num, 1, MPI_LONG, MASTER_NODE, 0, MPI_COMM_WORLD);
             SU2_MPI::Send(&nearestnode_dis, 1, MPI_DOUBLE, MASTER_NODE, 1, MPI_COMM_WORLD);
+            
+            SU2_MPI::Recv(&nearestnode_num, 1, MPI_LONG, MASTER_NODE, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            SU2_MPI::Recv(&nearestnode_dis, 1, MPI_DOUBLE, MASTER_NODE, 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            SU2_MPI::Recv(&nearestnode_rnk, 1, MPI_INT, MASTER_NODE, 4, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
         
         if (rank == MASTER_NODE){
@@ -2262,15 +2266,22 @@ void CGeometry::FindNearestNode(CConfig *config)
                 if (mynearestdist_recv < nearestnode_dis){
                     /* nearestnode_dis is from the Master rank.
                     If received distance is smaller then update the nearestnode.
-                    This becomes the global minimum which can be accessed from all ranks. 
+                    This becomes the global minimum which can be accessed from all ranks after it's sent across. 
                     Also update nearestnode_rnk identifier which tells us which rank gave the global min.
                     This will be used in the objective function since nearestnode_num is the node number on the
                     local MPI domain, so only the specific MPI rank which gave nearestnode can access the velocity on that node */
-                    nearestnode_dis = mynearestdist_recv;
                     nearestnode_num = mynearestnode_recv;
+                    nearestnode_dis = mynearestdist_recv;
                     nearestnode_rnk = proc;
                 }
             }
+            // Send back the final global nearestnode to all other MPI ranks
+            // Have to put this in a seperate proc loop because the one above has to finish first to find global nearestnode
+            for (int proc=1; proc < size; ++proc){
+                SU2_MPI::Send(&nearestnode_num, 1, MPI_LONG, proc, 2, MPI_COMM_WORLD);
+                SU2_MPI::Send(&nearestnode_dis, 1, MPI_DOUBLE, proc, 3, MPI_COMM_WORLD);
+                SU2_MPI::Send(&nearestnode_rnk, 1, MPI_INT, proc, 4, MPI_COMM_WORLD);
+            }  
         } //if (rank == MASTER_NODE)
     #endif   
 }
