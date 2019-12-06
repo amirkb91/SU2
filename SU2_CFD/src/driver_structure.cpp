@@ -210,6 +210,9 @@ CDriver::CDriver(char* confFile,
             cout << "*************************************************************************" << endl;
         }
       }
+      #ifdef HAVE_MPI
+        SU2_MPI::Barrier(MPI_COMM_WORLD); // Wait for all ranks to get here before moving on.
+      #endif
       /***************************************************************************/
     }
 
