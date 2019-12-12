@@ -2227,6 +2227,7 @@ void CGeometry::FindNearestNode(CConfig *config)
     #endif
     
     // Find the nearest point by looping through all mesh points
+    nearestnode_rnk = 0 // default on the Master rank
     for (iPoint = 0; iPoint < n_point; iPoint++){
         x_cord_node = node[iPoint]->GetCoord(0);
         y_cord_node = node[iPoint]->GetCoord(1);

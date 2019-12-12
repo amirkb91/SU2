@@ -374,7 +374,7 @@ public:
       (node number, distance to user-defined point, and MPI rank on which the node is found) */
    unsigned long nearestnode_num;
    su2double nearestnode_dis;
-   int nearestnode_rnk = 0; // MASTER_NODE by default
+   int nearestnode_rnk;
 	/*!
 	 * \brief Constructor of the class.
 	 */
