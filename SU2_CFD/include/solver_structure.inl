@@ -2541,6 +2541,8 @@ inline su2double CSolver::GetTotal_Sens_cw3(void) { return 0; }
 inline su2double CSolver::GetTotal_Sens_cv1(void) { return 0; }
 inline su2double CSolver::GetTotal_Sens_ct3(void) { return 0; }
 inline su2double CSolver::GetTotal_Sens_ct4(void) { return 0; }
+inline su2double CSolver::GetTotal_Sens_X(void)   { return 0; }
+inline su2double CSolver::GetTotal_Sens_Y(void)   { return 0; }
 // Child functions
 inline su2double CDiscAdjSolver::GetTotal_Sens_cb1(void) { return Total_Sens_cb1; }
 inline su2double CDiscAdjSolver::GetTotal_Sens_sig(void) { return Total_Sens_sig; }
@@ -2551,6 +2553,8 @@ inline su2double CDiscAdjSolver::GetTotal_Sens_cw3(void) { return Total_Sens_cw3
 inline su2double CDiscAdjSolver::GetTotal_Sens_cv1(void) { return Total_Sens_cv1; }
 inline su2double CDiscAdjSolver::GetTotal_Sens_ct3(void) { return Total_Sens_ct3; }
 inline su2double CDiscAdjSolver::GetTotal_Sens_ct4(void) { return Total_Sens_ct4; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_X(void)   { return Total_Sens_X; }
+inline su2double CDiscAdjSolver::GetTotal_Sens_Y(void)   { return Total_Sens_Y; }
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 // Functions for returning SA coefficients from solver
 // Virtuals

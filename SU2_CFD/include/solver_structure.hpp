@@ -4382,6 +4382,9 @@ public:
   virtual su2double GetTotal_Sens_cv1(void);
   virtual su2double GetTotal_Sens_ct3(void);
   virtual su2double GetTotal_Sens_ct4(void);
+  // X-Y sensitivity for velvec objfunc
+  virtual su2double GetTotal_Sens_X(void);
+  virtual su2double GetTotal_Sens_Y(void);  
   // Functions for returning SA coefficients from solver
   virtual su2double *GetSA_all_solver(void);
   virtual su2double GetSA_sig_solver(void);  
@@ -12705,6 +12708,9 @@ private:
   su2double Total_Sens_cv1;
   su2double Total_Sens_ct3;
   su2double Total_Sens_ct4;
+  // X-Y sensitivity for velvec objfunc
+  su2double Total_Sens_X;
+  su2double Total_Sens_Y;
   // Declare closure coefficients for AD register as array which will include all 9 coefficients
   su2double SA_adj[9];
   /***************************************************************************/  
@@ -12973,6 +12979,9 @@ public:
   su2double GetTotal_Sens_cv1(void);
   su2double GetTotal_Sens_ct3(void);
   su2double GetTotal_Sens_ct4(void);
+  // X-Y sensitivity for velvec objfunc
+  su2double GetTotal_Sens_X(void);
+  su2double GetTotal_Sens_Y(void);
   // Functions for returning SA coefficients from solver
   su2double *GetSA_all_solver(void);
   su2double GetSA_sig_solver(void);

@@ -4396,7 +4396,7 @@ void COutput::SetConvHistory_Header(ofstream *ConvHist_file, CConfig *config, un
   char adj_coeff[]= ",\"Sens_Geo\",\"Sens_Mach\",\"Sens_AoA\",\"Sens_Press\",\"Sens_Temp\",\"Sens_AoS\"";
   /***************************************************************************/
   // AKB: Add SA sensitivities to header of output file
-  char adj_coeff_SA[]=",\"Sens_cb1\",\"Sens_sig\",\"Sens_cb2\",\"Sens_kar\",\"Sens_cw2\",\"Sens_cw3\",\"Sens_cv1\",\"Sens_ct3\",\"Sens_ct4\"";
+  char adj_coeff_SA[]=",\"Sens_cb1\",\"Sens_sig\",\"Sens_cb2\",\"Sens_kar\",\"Sens_cw2\",\"Sens_cw3\",\"Sens_cv1\",\"Sens_ct3\",\"Sens_ct4\",\"Sens_X\",\"Sens_Y\"";
   /***************************************************************************/  
   char adj_inc_coeff[]=",\"Sens_Geo\",\"Sens_Vin\",\"Sens_Pout\",\"Sens_Temp\"";
   char adj_turbo_coeff[]=",\"Sens_Geo\",\"Sens_PressOut\",\"Sens_TotTempIn\"";
@@ -4798,6 +4798,8 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
     su2double Total_Sens_cv1 = 0.0;
     su2double Total_Sens_ct3 = 0.0;
     su2double Total_Sens_ct4 = 0.0;
+    su2double Total_Sens_X = 0.0;
+    su2double Total_Sens_Y = 0.0;
     /***************************************************************************/
 
     su2double Total_Sens_BPressure = 0.0;
@@ -5125,7 +5127,12 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
           Total_Sens_cv1       = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_cv1();
           Total_Sens_ct3       = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_ct3();
           Total_Sens_ct4       = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_ct4();
-          /***************************************************************************/          
+          /***************************************************************************/
+          // AKB: Get X-Y sensitivities from solver
+          if (config[val_iZone]->GetKind_ObjFunc() == CUSTOM_OBJFUNC){
+              Total_Sens_X = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_X();
+              Total_Sens_Y = solver_container[val_iZone][val_iInst][FinestMesh][ADJFLOW_SOL]->GetTotal_Sens_Y();
+          }          
 
           /*--- Adjoint flow residuals ---*/
           
@@ -5455,8 +5462,8 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
                 if (compressible) {
                   SPRINTF (adjoint_coeff, ", %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, 0.0", Total_Sens_Geo, Total_Sens_Mach, Total_Sens_AoA, Total_Sens_Press, Total_Sens_Temp);
                   // AKB: Add SA sensitvities to the buffer to be written later
-                  SPRINTF (adjoint_coeff_SA, ", %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e", 
-                                             Total_Sens_cb1, Total_Sens_sig, Total_Sens_cb2, Total_Sens_kar, Total_Sens_cw2, Total_Sens_cw3, Total_Sens_cv1, Total_Sens_ct3, Total_Sens_ct4);                
+                  SPRINTF (adjoint_coeff_SA, ", %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e, %14.8e", 
+                           Total_Sens_cb1, Total_Sens_sig, Total_Sens_cb2, Total_Sens_kar, Total_Sens_cw2, Total_Sens_cw3, Total_Sens_cv1, Total_Sens_ct3, Total_Sens_ct4, Total_Sens_X, Total_Sens_Y);                
                 }
                 if (incompressible) {
                   SPRINTF (adjoint_coeff, ", %14.8e, %14.8e, %14.8e, %14.8e", Total_Sens_Geo, Total_Sens_ModVel, Total_Sens_BPressure, Total_Sens_Temp);
@@ -5904,7 +5911,7 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
                   //cout << "    Sens_Press" << "      Sens_AoA" << endl;                  
                   cout << "    Sens_Press" << "      Sens_AoA" << "      Sens_cb1" << "      Sens_sig" 
                   << "      Sens_cb2" << "      Sens_kar" << "      Sens_cw2" << "      Sens_cw3" 
-                  << "      Sens_cv1" << "      Sens_ct3" << "      Sens_ct4" << endl;
+                  << "      Sens_cv1" << "      Sens_ct3" << "      Sens_ct4" << "      Sens_X" << "      Sens_Y" << endl;
                   }
                   if (incompressible) {
                     cout << "      Sens_Vin" << "     Sens_Pout" << endl;
@@ -6327,7 +6334,10 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
                   cout.width(14); cout << Total_Sens_cw3;                  
                   cout.width(14); cout << Total_Sens_cv1;                  
                   cout.width(14); cout << Total_Sens_ct3;                  
-                  cout.width(14); cout << Total_Sens_ct4;                  
+                  cout.width(14); cout << Total_Sens_ct4;
+                  // X-Y sensitivity
+                  cout.width(14); cout << Total_Sens_X;
+                  cout.width(14); cout << Total_Sens_Y;                  
                   }
                   if (incompressible) {
                     cout.width(14); cout << Total_Sens_ModVel;

@@ -900,6 +900,28 @@ void CDiscAdjSolver::SetSensitivity(CGeometry *geometry, CConfig *config) {
     }
   }
   SetSurface_Sensitivity(geometry, config);
+  
+  /* AKB: Find X-Y sensitiviy at location of user defined velocity vector objfunc and store as new variable
+  to be printed in output. The sensitivity is already calculated for all the nodes in the lines above
+  therefore we only need to "Get" it. */
+  if (config->GetKind_ObjFunc() == CUSTOM_OBJFUNC) {
+      // nearestnode is on the MPI rank at which it's found
+      #ifdef HAVE_MPI
+          su2double sens_x, sens_y;
+          if (rank == geometry->GetNearestNode_rnk()){
+              sens_x = node[geometry->GetNearestNode_num()]->GetSensitivity(0);
+              sens_y = node[geometry->GetNearestNode_num()]->GetSensitivity(1);
+          }
+          else {
+              sens_x = 0.0; sens_y = 0.0;
+          }
+          SU2_MPI::Allreduce(&sens_x,  &Total_Sens_X,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+          SU2_MPI::Allreduce(&sens_y,  &Total_Sens_Y,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+      #else
+          Total_Sens_X = node[geometry->GetNearestNode_num()]->GetSensitivity(0);
+          Total_Sens_Y = node[geometry->GetNearestNode_num()]->GetSensitivity(1);
+      #endif
+  } 
 }
 
 void CDiscAdjSolver::SetSurface_Sensitivity(CGeometry *geometry, CConfig *config) {
