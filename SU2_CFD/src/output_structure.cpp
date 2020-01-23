@@ -5911,7 +5911,7 @@ void COutput::SetConvHistory_Body(ofstream *ConvHist_file,
                   //cout << "    Sens_Press" << "      Sens_AoA" << endl;                  
                   cout << "    Sens_Press" << "      Sens_AoA" << "      Sens_cb1" << "      Sens_sig" 
                   << "      Sens_cb2" << "      Sens_kar" << "      Sens_cw2" << "      Sens_cw3" 
-                  << "      Sens_cv1" << "      Sens_ct3" << "      Sens_ct4" << "      Sens_X" << "      Sens_Y" << endl;
+                  << "      Sens_cv1" << "      Sens_ct3" << "      Sens_ct4" << "      Sens_X" << "        Sens_Y" << endl;
                   }
                   if (incompressible) {
                     cout << "      Sens_Vin" << "     Sens_Pout" << endl;

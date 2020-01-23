@@ -5107,7 +5107,7 @@ void CConfig::SetOutput(unsigned short val_software, unsigned short val_izone) {
         cout << "ct4 =   " << ct4_usrdef << endl;
         cout << "*************************************************************************" << endl;
     }
-    if (Kind_Solver == DISC_ADJ_RANS){    
+    if (Kind_Solver == DISC_ADJ_RANS && Kind_ObjFunc[0] == CUSTOM_OBJFUNC){    
         // AKB: Add XY of velocity vector location to screen output
         cout << "User-Specified Location of Velocity Vector for Adjoint Objective Function" << endl;
         cout << "X =   " << x_usrdef_objfunc << endl;
